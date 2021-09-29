@@ -12,6 +12,12 @@
   font-family: 'Gothic A1', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --color-background: #F0F8FF;
+  --color-text: #222;
+  --color-text-light: #777;
+  --color-primary: #64B5FF;
+  --color-secondary: #FFDB5A;
+  --color-highlights: #FF9270;
 }
 
 h1, h2, h3, h4, h5, h6 {
