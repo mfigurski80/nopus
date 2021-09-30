@@ -18,6 +18,7 @@
   --color-primary: #64B5FF;
   --color-secondary: #FFDB5A;
   --color-highlights: #FF9270;
+  color: var(--color-text);
 }
 
 h1, h2, h3, h4, h5, h6 {
