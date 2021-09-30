@@ -3,9 +3,9 @@ import {
     BrowserRouter as Router, 
     Switch,
     Route,
-    Link
 } from "react-router-dom"; // https://reactrouter.com/web/guides/quick-start
-// custom components
+// components
+import ExternalNav from "components/ExternalNav";
 import LoginPage from 'pages/LoginPage';
 // styles?
 import './App.css';
@@ -13,7 +13,7 @@ import './App.css';
 function App() {
     return (
         <Router>
-            <p>Hi, welcome</p>
+            <ExternalNav />
             <Switch>
                 <Route exact path="/">
                     <p>Welcome to the home root "/". Look at the address bar ^^ and add "/login" to go to the login page!</p>
