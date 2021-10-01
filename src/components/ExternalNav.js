@@ -1,7 +1,7 @@
 import {
     Link
 } from "react-router-dom";
-import styled, {css} from 'styled-components';
+import styled, {css} from 'styled-components'; // https://styled-components.com/
 
 /**
  * ExternalNav component is used to render 'navbar' for external
@@ -27,9 +27,10 @@ const Nav = styled.nav`
     display: flex;
     align-items: center;
     gap: 45px;
+    height: 100px;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 25px 20px;
+    padding: 0 20px;
 `
 const Spacer = styled.div`
     flex: 1;
@@ -42,7 +43,7 @@ const NavLink = styled(Link)`
     ${props => props.solid && css`
         background: var(--color-primary);
         color: #fff;
-        border-radius: 10px;
+        border-radius: 7px;
         padding: 12px 23px;
         &:hover {
             background: var(--color-primary-dark);
