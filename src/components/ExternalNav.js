@@ -1,7 +1,9 @@
 import {
     Link
 } from "react-router-dom";
-import styled, {css} from 'styled-components'; // https://styled-components.com/
+import styled from 'styled-components'; // https://styled-components.com/
+
+import LoginButton from 'components/LoginButton';
 
 /**
  * ExternalNav component is used to render 'navbar' for external
@@ -19,7 +21,7 @@ export default function ExternalNav() {
         <NavLink to="/about">About</NavLink>
         <Spacer />
         <NavLink to="/signup">Sign Up</NavLink>
-        <NavLink to="/login" solid>Login</NavLink>
+        <NavLoginButton />
     </Nav>
 }
 
@@ -40,15 +42,16 @@ const NavLink = styled(Link)`
     text-decoration: none;
     color: inherit;
     font-weight: bold;
-    ${props => props.solid && css`
-        background: var(--color-primary);
-        color: #fff;
-        border-radius: 7px;
-        padding: 12px 23px;
-        &:hover {
-            background: var(--color-primary-dark);
-        }
-    `}
+`
+
+const NavLoginButton = styled(LoginButton)`
+    background: var(--color-primary);
+    color: #fff;
+    border-radius: 7px;
+    padding: 12px 23px;
+    &:hover {
+        background: var(--color-primary-dark);
+    }
 `
 
 const NavLinkImage = styled(NavLink)`

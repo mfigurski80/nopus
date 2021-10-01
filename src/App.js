@@ -8,7 +8,6 @@ import {
 import ExternalNav from "components/ExternalNav";
 import LoginPage from 'pages/LoginPage';
 // styles?
-import './App.css';
 
 function App() {
     return (
