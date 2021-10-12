@@ -26,6 +26,8 @@ export default function ExternalNav() {
 }
 
 const Nav = styled.nav`
+    position: relative;
+    z-index: 20;
     display: flex;
     align-items: center;
     gap: 45px;

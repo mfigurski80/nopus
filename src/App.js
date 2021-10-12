@@ -14,7 +14,7 @@ import { CssBaseline } from "@material-ui/core";
 
 function App() {
     return (
-        <CssBaseline>
+        <CssBaseline style={{height: '100vh'}}>
           <Router>
               <ExternalNav />
               <Switch>

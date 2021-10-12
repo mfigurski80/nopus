@@ -3,20 +3,30 @@ import { Container } from '@material-ui/core';
 
 export default function LandingPage() {
     return (
-        <Container>
+        <VerticalCenterContainer>
+            <section>
+                <Header> Scheduling made easy.</Header>
+                <Description>Nopus is the solution to all of your add-
+                drop-swap problems. Tell us your major and graduation date,
+                and we’ll take care of the rest.</Description>
+            </section>
             <BackgroundImage src={`${process.env.PUBLIC_URL}/landingimage.png`}/>
-            <Header> Scheduling made easy.</Header>
-            <Description>Nopus is the solution to all of your add-
-            drop-swap problems. Tell us your major and graduation date,
-            and we’ll take care of the rest.</Description>
-        </Container>
+        </VerticalCenterContainer>
     )
 }
 
+const VerticalCenterContainer = styled(Container)`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80vh;
+    & > section {
+        position: relative;
+        z-index: 1;
+    }
+`;
+
 const Header = styled.h1`
-    position: absolute;
-    left: 121px;
-    top: 350px;
     width: 450px;
     font-family: 'Gothic A1';
     font-style: normal;
@@ -26,9 +36,6 @@ const Header = styled.h1`
 `;
   
 const Description = styled.p`
-    position: absolute;
-    left: 121px;
-    top: 500px;
     width: 350px;
     font-family: 'Lato';
     font-style: normal;
@@ -37,8 +44,8 @@ const Description = styled.p`
 `;
   
 const BackgroundImage = styled.img`
+    position: absolute;
     width: 1000px;
     height: 690px;
-    position: absolute;
-    left: 440px;
+    right: 0;
 `;
