@@ -1,14 +1,15 @@
 import styled from 'styled-components'; // https://styled-components.com/
+import { Container } from '@material-ui/core';
 
 export default function LandingPage() {
     return (
-        <div>
+        <Container>
             <BackgroundImage src={`${process.env.PUBLIC_URL}/landingimage.png`}/>
             <Header> Scheduling made easy.</Header>
             <Description>Nopus is the solution to all of your add-
             drop-swap problems. Tell us your major and graduation date,
             and we’ll take care of the rest.</Description>
-        </div>
+        </Container>
     )
 }
 
