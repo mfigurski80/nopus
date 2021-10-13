@@ -4,10 +4,12 @@ import {
     Switch,
     Route,
 } from "react-router-dom"; // https://reactrouter.com/web/guides/quick-start
+
 // components
 import ExternalNav from "components/ExternalNav";
 import LoginPage from 'pages/LoginPage';
 import landingImage from './components/landingimage.png';
+import AboutPage from "pages/AboutPage";
 // styles?
 
 const header = {
@@ -53,6 +55,7 @@ function App() {
                     and we’ll take care of the rest.</p>
                 </Route>
                 <Route path="/login" component={LoginPage} />
+                <Route path="/about" component={AboutPage} />
                 <Route path="*"><p>Sorry! Page not found</p></Route>
             </Switch>
         </Router>
