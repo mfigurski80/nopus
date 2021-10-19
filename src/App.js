@@ -7,9 +7,11 @@ import {
 
 // components
 import ExternalNav from "components/ExternalNav";
+
 import ProfilePage from 'pages/ProfilePage';
 import LandingPage from 'pages/LandingPage';
 import AboutPage from "pages/AboutPage";
+import SchedulePage from "pages/SchedulePage";
 // styles?
 import { CssBaseline } from "@material-ui/core";
 
@@ -21,8 +23,9 @@ function App() {
                 <ExternalNav />
                 <Switch>
                     <Route exact path="/" component={LandingPage} />
-                    <Route path="/profile" component={ProfilePage} />
                     <Route path="/about" component={AboutPage} />
+                    <Route path="/profile" component={ProfilePage} />
+                    <Route path="/schedule" component={SchedulePage} />
                     <Route path="*"><p>Sorry! Page not found</p></Route>
                 </Switch>
           </Router>
