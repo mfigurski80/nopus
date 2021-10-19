@@ -1,15 +1,18 @@
 import styled from 'styled-components';
 
-import { listHours } from 'utils';
+import { listHours, scheduleByDay } from 'utils';
+
+const WEEK_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 export default function Schedule({timeRange: [ start, end ]}) {
 
-    let schedule = {
-        monday: [
-            {start: 60*9, end: 60*10 + 30, title: 'Приветствие'},
-        ],
-    };
-    
+    const schedule = [
+        { start: 60*9, end: 60*10 + 30, title: 'Привет', days: [0,2] },
+        { start: 60*10, end: 60*11, title: 'Привет 2', days: [1,3] },
+        { start: 60*14, end: 60*15, title: 'Привет 3', days: [0,2,4] },
+    ];
+    const dailySchedule = scheduleByDay(schedule);
+
     let nRows = (end-start) / 15;
     return (
         <WeekRow>
@@ -19,24 +22,19 @@ export default function Schedule({timeRange: [ start, end ]}) {
                     <h4 id={h}>{h}</h4>
                 )) }
             </TimeColumn>
-            <DayColumn nRows={nRows}>
-                <DayHeader>Monday</DayHeader>
-                { schedule.monday?.map(({start:s, end:e, title}) => (
-                    <EventItem start={(s-start) / 15} end={(e-end) / 15}>{title}</EventItem>
-                ))}
-            </DayColumn>
-            <DayColumn nRows={nRows}>
-                <DayHeader>Tuesday</DayHeader>
-            </DayColumn>
-            <DayColumn nRows={nRows}>
-                <DayHeader>Wednesday</DayHeader>
-            </DayColumn>
-            <DayColumn nRows={nRows}>
-                <DayHeader>Thursday</DayHeader>
-            </DayColumn>
-            <DayColumn nRows={nRows}>
-                <DayHeader>Friday</DayHeader>
-            </DayColumn>
+            { dailySchedule.map((sch, i) => (
+                <DayColumn key={i} nRows={nRows}>
+                    <DayHeader>{WEEK_NAMES[i]}</DayHeader>
+                    { sch.map(i => (
+                        <Event key={i}
+                            start={(schedule[i].start - start) / 15}
+                            end={(schedule[i].end - start) / 15}
+                        >
+                            {schedule[i].title}
+                        </Event>
+                    )) }
+                </DayColumn>
+            )) }
         </WeekRow>
     );
 }
@@ -72,7 +70,7 @@ const DayColumn = styled.div`
     grid-template-rows: ${HEADER_HEIGHT}px repeat(${({nRows}) => nRows}, ${QUARTER_HOUR_HEIGHT}px);
 `;
 
-const EventItem = styled.div`
+const Event = styled.div`
     background: #eee;
-    grid-row: ${({start}) => start + 2} / ${({end}) => end - 1};
+    grid-row: ${({start}) => start + 2} / ${({end}) => end + 2};
 `;
