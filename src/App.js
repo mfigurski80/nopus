@@ -17,7 +17,7 @@ import { CssBaseline } from "@material-ui/core";
 function App() {
     return (
         <CssBaseline style={{height: '100vh'}}>
-          <Router>
+          <Router id="container">
                 <ExternalNav />
                 <Switch>
                     <Route exact path="/" component={LandingPage} />
