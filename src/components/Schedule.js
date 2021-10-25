@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
-import { listHours, scheduleByDay } from 'utils';
+import { listHours, scheduleByDay, stringToColor } from 'utils';
 
 const WEEK_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 export default function Schedule({timeRange: [ start, end ]}) {
 
     const schedule = [
-        { start: 60*9, end: 60*10 + 30, title: 'Привет', days: [0,2] },
-        { start: 60*10, end: 60*11, title: 'Привет 2', days: [1,3] },
-        { start: 60*14, end: 60*15, title: 'Привет 3', days: [0,2,4] },
+        { start: 60*9, end: 60*10 + 30, name: 'Test 1', days: [0,2] },
+        { start: 60*10, end: 60*11, name: 'Test 2', days: [1,3] },
+        { start: 60*14, end: 60*15, name: 'Test 3', days: [0,2,4] },
     ];
     const dailySchedule = scheduleByDay(schedule);
 
@@ -29,8 +29,9 @@ export default function Schedule({timeRange: [ start, end ]}) {
                         <Event key={i}
                             start={(schedule[i].start - start) / 15}
                             end={(schedule[i].end - start) / 15}
+                            color={stringToColor(schedule[i].name)}
                         >
-                            {schedule[i].title}
+                            {schedule[i].name}
                         </Event>
                     )) }
                 </DayColumn>
@@ -73,4 +74,8 @@ const DayColumn = styled.div`
 const Event = styled.div`
     background: #eee;
     grid-row: ${({start}) => start + 2} / ${({end}) => end + 2};
+    border-radius: 10px;
+    border: 2px solid #2222;
+    padding: 10px;
+    background: ${({color}) => color};
 `;
