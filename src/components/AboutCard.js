@@ -1,30 +1,14 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
-import { style } from '@mui/system';
+import styled from 'styled-components';
+import { Card, CardContent, CardMedia, Typography, CardActionArea } from '@material-ui/core';
 
-const styles = {
-    card: {
-        width: '30%',
-        maxHeight: '50%',
-    },
-    cardMedia: {
-        maxHeight :'300px'
-    }
-  };
-
-export default function ActionAreaCard({img, title, text}) {
+export default function AboutCard({img, title, text}) {
   return (
-    <Card style={styles.card}>
+    <ActionCard>
       <CardActionArea>
-        <CardMedia
+        <Media
           component="img"
           image={img}
           alt={title}
-          style={styles.cardMedia}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
@@ -35,6 +19,15 @@ export default function ActionAreaCard({img, title, text}) {
           </Typography>
         </CardContent>
       </CardActionArea>
-    </Card>
+    </ActionCard>
   );
 }
+
+const ActionCard = styled(Card)`
+    width: 30%;
+    max-height: 50%;
+`;
+
+const Media = styled(CardMedia)`
+  max-height: 300px;
+`;

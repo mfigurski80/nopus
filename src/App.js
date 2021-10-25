@@ -23,7 +23,7 @@ import { CssBaseline } from "@material-ui/core";
 function App() {
     return (
         <CssBaseline style={{height: '100vh'}}>
-          <Router>
+            <Router>
                 <Routes>
                     {/* Internal Pages */}
                     <Route path="/user/*" element={<InternalWrapper />}>
@@ -38,7 +38,7 @@ function App() {
                         <Route path="*" element={<NotFoundPage />} />
                     </Route>
                 </Routes>
-          </Router>
+            </Router>
         </CssBaseline>
     );
 }
