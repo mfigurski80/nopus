@@ -1,23 +1,9 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import Grid from '@material-ui/core/Grid';
+import { Grid, Container } from '@material-ui/core';
 import AboutCard from 'components/AboutCard'
-import StudyingFail from '../assets/studyingFail.gif'
-import Studying from '../assets/studying.gif'
-import Calendar from '../assets/calendar.gif'
+import StudyingFail from 'assets/studyingFail.gif'
+import Studying from 'assets/studying.gif'
+import Calendar from 'assets/calendar.gif'
 
-var stylingObject = {
-    div: {
-      color: "red",
-      border: "1px solid red"
-    }, input: {
-      margin: "2px",
-      padding: "5px"
-    },
-    flexContainer: {
-        display: 'flex',
-        
-    }
-}
 
 var cardText = {
     titleFail: "Stress-Free Registration",
@@ -29,15 +15,8 @@ var cardText = {
 }
 
 export default function AboutPage() {
-    const { isLoading } = useAuth0();
-    if (isLoading) return <div>Loading ...</div>
     return (
-        <>
-            {/* <div style={stylingObject.flexContainer}>
-                <AboutCard img={StudyingFail} title='a' text={cardText.textFail}/>
-                <AboutCard img={Calendar} title='b' text={cardText.textCalendar}/>
-                <AboutCard img={Studying2} title='c' text={cardText.textStudying}/>
-            </div> */}
+        <Container>
             <Grid
                 container
                 direction="row"
@@ -49,6 +28,6 @@ export default function AboutPage() {
                 <AboutCard img={Studying} title={cardText.titleStudying} text={cardText.textStudying}/>
             </Grid>
             
-        </>
+        </ Container>
     )
 }
