@@ -6,6 +6,7 @@ import {
 } from "react-router-dom"; // https://reactrouter.com/web/guides/quick-start
 // NOTE: we're using v6.0, which is alpha and has breaking changes from ^^
 // so also look at https://ui.dev/react-router-nested-routes/
+import { useAuth0 } from '@auth0/auth0-react'
 
 // components
 import ProfilePage from 'pages/ProfilePage';
@@ -21,15 +22,20 @@ import { CssBaseline } from "@material-ui/core";
 
 
 function App() {
+    const { isAuthenticated } = useAuth0();
+
     return (
         <CssBaseline style={{height: '100vh'}}>
             <Router>
                 <Routes>
                     {/* Internal Pages */}
                     <Route path="/user/*" element={<InternalWrapper />}>
-                        <Route path="profile" element={<ProfilePage />} />
-                        <Route path="schedule" element={<SchedulePage />} />
-                        <Route path="*" element={<NotFoundPage />} />
+                        { isAuthenticated && <>
+                            <Route path="profile" element={<ProfilePage />} />
+                            <Route path="schedule" element={<SchedulePage />} />
+                            <Route path="*" element={<NotFoundPage />} />
+                        </> }
+                        <Route path="*" element={<p>Log In to view this page!</p>} />
                     </Route>
                     {/* External Pages */}
                     <Route path="/*" element={<ExternalWrapper />}>
