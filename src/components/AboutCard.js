@@ -24,10 +24,11 @@ export default function AboutCard({img, title, text}) {
 }
 
 const ActionCard = styled(Card)`
+    margin-top: 3em;
     width: 30%;
-    max-height: 50%;
+    max-height: 500px;
 `;
 
 const Media = styled(CardMedia)`
-  max-height: 300px;
+  max-height: 250px;
 `;

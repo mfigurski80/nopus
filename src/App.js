@@ -12,9 +12,9 @@ import { useAuth0 } from '@auth0/auth0-react'
 import ProfilePage from 'pages/ProfilePage';
 import LandingPage from 'pages/LandingPage';
 import AboutPage from "pages/AboutPage";
+import FeaturesPage from 'pages/FeaturesPage';
 import SchedulePage from "pages/SchedulePage";
 import NotFoundPage from "pages/NotFoundPage";
-
 import InternalWrapper from "pages/InternalWrapper";
 import ExternalWrapper from "pages/ExternalWrapper";
 // styles?
@@ -41,6 +41,7 @@ function App() {
                     <Route path="/*" element={<ExternalWrapper />}>
                         <Route exact path="" element={<LandingPage />} />
                         <Route path="about" element={<AboutPage />} />
+                        <Route path="features" element={<FeaturesPage />} />
                         <Route path="*" element={<NotFoundPage />} />
                     </Route>
                 </Routes>
