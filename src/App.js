@@ -10,6 +10,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 // components
 import LoginHandler from 'pages/LoginHandler';
+import RegistrationPage from 'pages/RegistrationPage';
 import ProfilePage from 'pages/ProfilePage';
 import LandingPage from 'pages/LandingPage';
 import AboutPage from "pages/AboutPage";
@@ -31,6 +32,7 @@ function App() {
                 <Routes>
                     {/* Auth Landing Page */}
                     <Route path="/login" element={<LoginHandler redirectTo='/user/profile' />} /> 
+                    <Route path="/register" element={<RegistrationPage />} />
                     {/* Internal Pages */}
                     <Route path="/user/*" element={<InternalWrapper />}>
                         { isAuthenticated && <>
