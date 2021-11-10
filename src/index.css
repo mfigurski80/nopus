@@ -15,7 +15,8 @@
   -moz-osx-font-smoothing: grayscale;
   --color-background: #F0F8FF;
   --color-text: #222;
-  --color-text-light: #777;
+  --color-text-light: #555;
+  --color-text-superlight: #888;
   --color-primary: #64B5FF;
   --color-primary-dark: #3D9AFB;
   --color-secondary: #FFDB5A;
@@ -32,6 +33,11 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Lato', sans-serif;
+  margin: 15px 0;
+}
+
+p, h4, h5, h6 {
+  color: var(--color-text-light);
 }
 
 code {

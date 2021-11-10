@@ -1,16 +1,17 @@
 import styled from 'styled-components'; // https://styled-components.com/
-import { Container } from '@material-ui/core';
+
+import Logo from 'components/Logo';
 
 export default function SidebarLayout({contents, children}) {
     return (
         <Layout>
             <SidebarContainer>
-                <p>Sidebar</p>
+                <Logo />
                 {contents}
-            </SidebarContainer>
-            <div>
+            </ SidebarContainer>
+            <BodyContainer>
                 {children}
-            </div>
+            </ BodyContainer>
         </Layout>
     )
 }
@@ -24,5 +25,8 @@ const SidebarContainer = styled.div`
     width: 300px;
     background: white;
     height: 100%;
-    padding: 50px 30px;
+`
+
+const BodyContainer = styled.div`
+    flex: 1;
 `
