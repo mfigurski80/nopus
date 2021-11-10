@@ -20,6 +20,7 @@
   --color-primary: #64B5FF;
   --color-primary-dark: #3D9AFB;
   --color-secondary: #FFDB5A;
+  --color-tertiary: #79FF63;
   --color-highlights: #FF9270;
   color: var(--color-text);
   background-color: var(--color-background);

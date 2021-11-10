@@ -27,7 +27,7 @@ function App() {
     const { isAuthenticated } = useAuth0();
 
     return (
-        <CssBaseline style={{height: '100vh'}}>
+        <CssBaseline>
             <Router>
                 <Routes>
                     {/* Auth Landing Page */}
