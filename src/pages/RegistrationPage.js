@@ -9,19 +9,24 @@ import {
 import SidebarLayout from 'components/SidebarLayout';
 import StepItem from 'components/StepItem';
 
-const STAGES = ['MAJOR & GRADUATION', 'COURSES TAKEN', 'PROFILE PICTURE'];
+const STAGES = ['MAJOR & GRADUATION', 'COURSES TAKEN'];
 
 export default function RegistrationPage() {
 
     const [userInfo, setUserInfo] = useState({
         courses: [],
-        major: '',
-        graudation: '',
+        majors: [''],
+        minor: null,
     });
     const [stage, setStage] = useState(0);
 
     const setParams = (obj) => {
         setUserInfo({...userInfo, ...obj});
+    }
+
+    const onComplete = () => {
+        // TODO: send userInfo to backend
+
     }
 
     return (
@@ -33,11 +38,11 @@ export default function RegistrationPage() {
             </>
         }>
             <SeparatedContainer maxWidth="md">
-                { [ MajorSection, CoursesSection, ProfileSection ][stage](userInfo, setParams) }
+                { [ MajorSection, CoursesSection ][stage](userInfo, setParams) }
             </SeparatedContainer>
             <Footer>
                 {stage === STAGES.length - 1 ? (
-                    <Button variant="contained" onClick={e => alert('Registration complete!')}>Complete</Button>
+                    <Button variant="contained" onClick={onComplete}>Complete</Button>
                 ) : (
                     <>
                     <Button onClick={() => setStage(stage + 1)}>Skip</Button>
@@ -56,14 +61,6 @@ const MajorSection = (info, setParams) => (
         <h1>Major & Intended Graduation</h1>
         <p>Select the degree(s) you are working towards and the term limit you intend to graduate</p>
         <FormControl variant="filled" fullWidth>
-            <h4>MAJOR</h4>
-            <Select value={info.major} onChange={e => setParams({major: e.target.value})} label='Major'>
-                <MenuItem value={'CS'}>Computer Science</MenuItem>
-                <MenuItem value={'ECON'}>Economics</MenuItem>
-                <MenuItem value={'MATH'}>Mathematics</MenuItem>
-            </Select>
-        </FormControl>
-        <FormControl variant="filled" fullWidth>
             <h4>GRADUATION TERM</h4>
             <Select value={info.graduation} onChange={e => setParams({graduation: e.target.value})} label='Graduation'>
                 <MenuItem value={2021}>2021</MenuItem>
@@ -72,6 +69,36 @@ const MajorSection = (info, setParams) => (
                 <MenuItem value={2024}>2024</MenuItem>
             </Select>
         </FormControl>
+        <h4>MAJOR(S)</h4>
+        {info.majors.map((m, i) => (
+            <FormControl variant="filled" fullWidth>
+                <Select value={m} onChange={e => {
+                    let majors = info.majors;
+                    majors[i] = e.target.value;
+                    setParams({majors});
+                }} label='Major'>
+                    <MenuItem value={'CS'}>Computer Science</MenuItem>
+                    <MenuItem value={'ECON'}>Economics</MenuItem>
+                    <MenuItem value={'MATH'}>Mathematics</MenuItem>
+                </Select>
+            </FormControl>
+        ))}
+        { info.majors.length < 2 && (
+            <AddItem onClick={() => setParams({majors: [...info.majors, '']})}>+ Add Major</AddItem>   
+        )}
+        <h4>MINOR</h4>
+        { info.minor !== null ? (
+            <FormControl variant="filled" fullWidth>
+                <Select value={info.minor} onChange={e => setParams({minor: e.target.value})} label='Minor'>));
+                    <MenuItem value={'CS'}>Computer Science</MenuItem>
+                    <MenuItem value={'ECON'}>Economics</MenuItem>
+                    <MenuItem value={'MATH'}>Mathematics</MenuItem>
+                </Select>
+            </FormControl>
+        ) : (
+            <AddItem onClick={() => setParams({minor: ''})}>+ Add Minor</AddItem>
+        )}
+    
 
     </>
 )
@@ -98,9 +125,6 @@ const CoursesSection = (info, setParams) => (
     </>
 )
 
-const ProfileSection = () => (
-    <h1>Upload a Profile Picture</h1>
-)
 
 const SeparatedContainer = styled(Container)`
     margin-top: 80px;
@@ -116,6 +140,11 @@ const Footer = styled.footer`
     display: flex;
     justify-content: right;
     gap: 20px;
+`;
+
+const AddItem = styled.p`
+    padding: 10px;
+    cursor: pointer;
 `;
 
 const InputForm = styled.form`
