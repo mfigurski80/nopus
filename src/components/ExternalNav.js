@@ -4,6 +4,7 @@ import {
 import styled from 'styled-components'; // https://styled-components.com/
 
 import LoginButton from 'components/LoginButton';
+import LogoutButton from "./LogoutButton";
 
 /**
  * ExternalNav component is used to render 'navbar' for external
@@ -20,7 +21,7 @@ export default function ExternalNav() {
         <NavLink to="/features">Features</NavLink>
         <NavLink to="/about">About</NavLink>
         <Spacer />
-        <NavLink to="/signup">Sign Up</NavLink>
+        <LogoutButton />
         <LoginButton />
     </Nav>
 }

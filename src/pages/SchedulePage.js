@@ -1,9 +1,17 @@
+import { useEffect } from 'react';
 import { Container } from '@material-ui/core';
 
 import Schedule from 'components/Schedule';
 
 export default function SchedulePage() {
     
+    useEffect(async () => {
+        let resp = await fetch('https://nopus-backend.herokuapp.com/home/schedule', {
+            method: 'POST',
+            mode: 'no-cors'
+        });
+        console.log(resp);
+    }, []);
     const schedule = [
         { start: 60*9, end: 60*10 + 30, name: 'CS 170', days: [0,2] },
         { start: 60*10, end: 60*11, name: 'CS 171', days: [1,3] },
