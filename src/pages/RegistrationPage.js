@@ -10,8 +10,8 @@ import { useAuth0 } from '@auth0/auth0-react'
 import SidebarLayout from 'components/SidebarLayout';
 import StepItem from 'components/StepItem';
 
-const put = (url, data) => fetch(url, {
-    method: 'PUT',
+const post = (url, data) => fetch(url, {
+    method: 'POST',
     mode: 'no-cors',
     headers: {
         'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ export default function RegistrationPage() {
         graduation: '',
     });
     const [stage, setStage] = useState(0);
-    const { user, isAuthenticated } = useAuth0();
+    const { user } = useAuth0();
 
     const setParams = (obj) => {
         setUserInfo({...userInfo, ...obj});
@@ -43,14 +43,15 @@ export default function RegistrationPage() {
     const onComplete = async () => {
         const userId = user.sub.split('|')[1];
         // TODO: send userInfo to backend
+        console.log(`https://nopus-backend.herokuapp.com/profile/majorMinor/${userId}`);
         const [res1, res2] = await Promise.all([
-            put(`https://nopus-backend.herokuapp.com/profile/majorMinor/${userId}`, {
-                major: userInfo.major,
+            post(`https://nopus-backend.herokuapp.com/profile/majorMinor/${userId}`, {
+                major: userInfo.majors,
                 minor: userInfo.minor,
-                gradSem: 'Summer',
+                gradSem: 'Fall',
                 gradYr: userInfo.graduation,
             }),
-            put(`https://nopus-backend.herokuapp.com/profile/courseList/${userId}`, {
+            post(`https://nopus-backend.herokuapp.com/profile/courseList/${userId}`, {
                 courseList: userInfo.courses,
             })
         ]);
