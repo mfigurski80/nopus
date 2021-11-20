@@ -5,28 +5,57 @@ import {
     Button,
     FormControl, Select, MenuItem, TextField,
 } from '@material-ui/core';
+import { useAuth0 } from '@auth0/auth0-react'
 
 import SidebarLayout from 'components/SidebarLayout';
 import StepItem from 'components/StepItem';
 
+const put = (url, data) => fetch(url, {
+    method: 'PUT',
+    mode: 'no-cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+})
+.catch(err => console.log(err))
+
+
 const STAGES = ['MAJOR & GRADUATION', 'COURSES TAKEN'];
 
 export default function RegistrationPage() {
-
     const [userInfo, setUserInfo] = useState({
         courses: [],
         majors: [''],
-        minor: null,
+        minor: '',
+        courseInput: '',
+        majorInput: '',
+        minorInput: '',
+        graduation: '',
     });
     const [stage, setStage] = useState(0);
+    const { user, isAuthenticated } = useAuth0();
 
     const setParams = (obj) => {
         setUserInfo({...userInfo, ...obj});
     }
 
-    const onComplete = () => {
+    const onComplete = async () => {
+        const userId = user.sub.split('|')[1];
         // TODO: send userInfo to backend
-
+        const [res1, res2] = await Promise.all([
+            put(`https://nopus-backend.herokuapp.com/profile/majorMinor/${userId}`, {
+                major: userInfo.major,
+                minor: userInfo.minor,
+                gradSem: 'Summer',
+                gradYr: userInfo.graduation,
+            }),
+            put(`https://nopus-backend.herokuapp.com/profile/courseList/${userId}`, {
+                courseList: userInfo.courses,
+            })
+        ]);
+        console.log(res1, res2);
+        alert('User Info Submitted');
     }
 
     return (
@@ -71,7 +100,7 @@ const MajorSection = (info, setParams) => (
         </FormControl>
         <h4>MAJOR(S)</h4>
         {info.majors.map((m, i) => (
-            <FormControl variant="filled" fullWidth>
+            <FormControl key={i} variant="filled" fullWidth>
                 <Select value={m} onChange={e => {
                     let majors = info.majors;
                     majors[i] = e.target.value;
