@@ -10,16 +10,19 @@ import { useAuth0 } from '@auth0/auth0-react'
 import SidebarLayout from 'components/SidebarLayout';
 import StepItem from 'components/StepItem';
 
-const post = (url, data) => fetch(url, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-})
-.catch(err => console.log(err))
-
+const post = ( url, data ) => new Promise((resolve, reject) => {
+    let req = new XMLHttpRequest();
+    req.addEventListener('load', () => {
+        if (req.status === 200) {
+            resolve(req.response);
+        } else {
+            reject(Error(req.statusText));
+        }
+    });
+    req.open('POST', url, true);
+    req.setRequestHeader('Content-Type', 'application/json');
+    req.send(JSON.stringify(data));
+});
 
 const STAGES = ['MAJOR & GRADUATION', 'COURSES TAKEN'];
 
@@ -50,10 +53,10 @@ export default function RegistrationPage() {
                 minor: userInfo.minor,
                 gradSem: 'Fall',
                 gradYr: userInfo.graduation,
-            }),
+            }).catch(console.error),
             post(`https://nopus-backend.herokuapp.com/profile/courseList/${userId}`, {
                 courseList: userInfo.courses,
-            })
+            }).catch(console.error),
         ]);
         console.log(res1, res2);
         alert('User Info Submitted');

@@ -38,7 +38,7 @@ function App() {
                     ) : (
                         <Route path="/login" element={<RegistrationPage />} />
                     )}
-
+                    <Route path="/register" element={<RegistrationPage />} />
                     {/* Internal Pages */}
                     <Route path="/user/*" element={<InternalWrapper />}>
                         { isAuthenticated && <>
