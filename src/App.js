@@ -24,15 +24,21 @@ import { CssBaseline } from "@material-ui/core";
 
 
 function App() {
-    const { isAuthenticated } = useAuth0();
-
+    const { isAuthenticated, user } = useAuth0();
+    //const id = user.sub;
+    //console.log(user.sub);
+    //const obj = fetch(`https://auth0.com/api/v2/user/` + id).then(res => res.json());
     return (
         <CssBaseline>
             <Router>
                 <Routes>
                     {/* Auth Landing Page */}
-                    <Route path="/login" element={<LoginHandler redirectTo='/user/profile' />} /> 
-                    <Route path="/register" element={<RegistrationPage />} />
+                    { (true === false)  ? (
+                        <Route path="/login" element={<LoginHandler redirectTo='/user/profile' />} /> 
+                    ) : (
+                        <Route path="/login" element={<RegistrationPage />} />
+                    )}
+
                     {/* Internal Pages */}
                     <Route path="/user/*" element={<InternalWrapper />}>
                         { isAuthenticated && <>
