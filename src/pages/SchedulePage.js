@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
 
 import Schedule from 'components/Schedule';
 
@@ -86,8 +87,11 @@ export default function SchedulePage() {
           <TabPanel value={value} index={0} dir={theme.direction}>
             <Schedule schedule={schedule} timeRange={[8*60, 18*60]}/>
           </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
+          <TabPanel value={value} index={1} dir={theme.direction} >
+            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
             You don't have a Spring 2022 schedule yet.
+            <Button sx={{background: "#FFDB5A", color: 'white', margin: '20px'}}>Create your schedule</Button>
+            </div>
           </TabPanel>
         </SwipeableViews>
         </Box>
