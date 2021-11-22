@@ -9,8 +9,7 @@ export default function PofilePage() {
     if (isLoading) return <div>Loading ...</div>
     return (
         <>
-            <h1>Profile Stuff</h1>
-            <p>This is a small login and style demo</p>
+            <h1>Profile</h1>
             <LoginButton />
             <LogoutButton />
             <Profile />

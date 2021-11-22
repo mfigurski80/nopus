@@ -45,8 +45,6 @@ const WeekRow = styled.div`
     }
 `;
 
-
-
 const DayHeader = styled.h3`
     text-align: center;
     color: var(--color-text-light);
