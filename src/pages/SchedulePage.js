@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Schedule from 'components/Schedule';
 import RangeSlider from 'components/RangeSlider'
+import AvailabilityChart from 'components/AvailabilityChart';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -101,6 +102,7 @@ export default function SchedulePage() {
             You don't have a Spring 2022 schedule yet.
             <Button onClick={handleCreateSchedule} sx={{background: "#FFDB5A", color: 'white', margin: '20px'}}>Create your schedule</Button>
             </div>
+            <AvailabilityChart />
           </TabPanel>
         </SwipeableViews>
         </Box>
