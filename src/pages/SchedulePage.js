@@ -12,6 +12,7 @@ import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 import Schedule from 'components/Schedule';
 
@@ -35,6 +36,7 @@ function TabPanel(props) {
   );
 }
 
+
 function allyProps(index) {
   return {
     id: `full-width-tab-${index}`,
@@ -52,6 +54,7 @@ export default function SchedulePage() {
 
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+    const navigate = useNavigate();
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -59,6 +62,11 @@ export default function SchedulePage() {
 
     const handleChangeIndex = (index) => {
       setValue(index);
+    };
+
+    const handleCreateSchedule = (event) => {
+      console.log('pogue');
+      navigate('/user/schedule/create');
     };
 
     return (
@@ -90,7 +98,7 @@ export default function SchedulePage() {
           <TabPanel value={value} index={1} dir={theme.direction} >
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
             You don't have a Spring 2022 schedule yet.
-            <Button sx={{background: "#FFDB5A", color: 'white', margin: '20px'}}>Create your schedule</Button>
+            <Button onClick={handleCreateSchedule} sx={{background: "#FFDB5A", color: 'white', margin: '20px'}}>Create your schedule</Button>
             </div>
           </TabPanel>
         </SwipeableViews>
