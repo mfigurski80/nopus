@@ -17,6 +17,7 @@ import SchedulePage from "pages/SchedulePage";
 import NotFoundPage from "pages/NotFoundPage";
 import InternalWrapper from "pages/InternalWrapper";
 import ExternalWrapper from "pages/ExternalWrapper";
+import ScheduleCreationPage from 'pages/ScheduleCreationPage'
 // styles?
 import { CssBaseline } from "@material-ui/core";
 
@@ -33,6 +34,7 @@ function App() {
                         { isAuthenticated && <>
                             <Route path="profile" element={<ProfilePage />} />
                             <Route path="schedule" element={<SchedulePage />} />
+                            <Route path="schedule/create" element={<ScheduleCreationPage />}/>
                             <Route path="*" element={<NotFoundPage />} />
                         </> }
                         <Route path="*" element={<p>Log In to view this page!</p>} />
