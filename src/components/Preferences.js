@@ -15,16 +15,24 @@ function Preferences() {
         <div>
             <Paper elevation={6}>
                 <Box p={2}>
-                    <Typography variant="h3">Set your preferences</Typography>
-                    <AvailabilityChart />
-                    <Typography variant="h5">CREDIT LIMIT</Typography>
-                    <Typography>Minimum</Typography>
-                    <div style={{width: '10em'}}>
-                        <Select options={options} />
-                    </div>
-                    <Typography>Maximum</Typography>
-                    <div style={{width: '10em'}}>
-                    <   Select options={options} />
+                    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+                        <div style={{display: 'flex', flexDirection: 'column',}}>
+                            <Typography variant="h4">Set your preferences</Typography>
+                            <div style={{paddingTop:'2em'}}>
+                                <Typography variant="h5">CREDIT LIMIT</Typography>
+                            </div>
+                            <div style={{width: '10em', padding:'1em'}}>
+                                <Typography>Minimum</Typography>
+                                <Select options={options} />
+                            </div>
+                            <div style={{width: '10em', padding:'1em'}}>
+                                <Typography>Maximum</Typography>
+                                <Select options={options} />
+                            </div>
+                        </div>
+                        <div style={{paddingLeft: '2em'}}>
+                            <AvailabilityChart />
+                        </div>
                     </div>
                 </ Box>
             </Paper>

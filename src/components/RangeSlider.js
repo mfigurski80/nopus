@@ -52,7 +52,7 @@ function RangeSlider(props) {
       };
       return (
         <div>
-          <div style={{ width: 500, margin: 60 }}>
+          <div style={{ width: 500, margin: 30 }}>
             <span> {props.day} : {convertTime(val[0])} to {convertTime(val[1])}</span>{" "}
             <Slider 
             value={val} 

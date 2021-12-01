@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Schedule from 'components/Schedule';
 import Preferences from 'components/Preferences';
+import CourseSelector from 'components/CourseSelector';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -70,7 +71,7 @@ export default function SchedulePage() {
     };
 
     return (
-        <Box sx={{ bgcolor: 'background.paper', width: '90%' }}>
+        <Box sx={{ bgcolor: 'background.paper', width: '95%' }}>
         <AppBar position="static" >
           <Tabs
             value={value}
