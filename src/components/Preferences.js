@@ -1,19 +1,9 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import yellow from "@material-ui/core/colors/yellow";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
 import AvailabilityChart from "./AvailabilityChart";
 import Select from 'react-select'
-import { SliderValueLabel } from "@mui/material";
-
-
 
 function Preferences() {
     const options = []

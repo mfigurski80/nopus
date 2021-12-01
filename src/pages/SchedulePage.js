@@ -15,8 +15,6 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
 import Schedule from 'components/Schedule';
-import RangeSlider from 'components/RangeSlider'
-import AvailabilityChart from 'components/AvailabilityChart';
 import Preferences from 'components/Preferences';
 
 function TabPanel(props) {
