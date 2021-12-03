@@ -1,17 +1,20 @@
 /// <reference types="cypress" />
 
 describe('Landing Page', () => {
-  beforeEach(() => {
-    cy.visit('/')
-  })
 
   it('Renders Correctly', () => {
-    // Check if Logo Exists
-    cy.get('.sc-eCImPb > img').click();
-    // Check Features
+    cy.visit('/')
     cy.get('[href="/features"]').click();
-    // Check About
     cy.get('[href="/about"]').click();
-  })
 
+  })
+})
+
+describe('Scheduler', () => {
+    it('Class Selection', () => {
+      cy.visit('/register')
+      cy.get('body').click();
+      cy.get(':nth-child(3) > .MuiInputBase-root > .MuiSelect-root').should('be.visible');
+      cy.get(':nth-child(4) > .MuiInputBase-root > .MuiSelect-root').should('be.visible');
+    })
 })

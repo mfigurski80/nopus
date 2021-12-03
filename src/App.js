@@ -9,6 +9,8 @@ import {
 import { useAuth0 } from '@auth0/auth0-react'
 
 // components
+import LoginHandler from 'pages/LoginHandler';
+import RegistrationPage from 'pages/RegistrationPage';
 import ProfilePage from 'pages/ProfilePage';
 import LandingPage from 'pages/LandingPage';
 import AboutPage from "pages/AboutPage";
@@ -22,12 +24,21 @@ import { CssBaseline } from "@material-ui/core";
 
 
 function App() {
-    const { isAuthenticated } = useAuth0();
-
+    const { isAuthenticated, user } = useAuth0();
+    //const id = user.sub;
+    //console.log(user.sub);
+    //const obj = fetch(`https://auth0.com/api/v2/user/` + id).then(res => res.json());
     return (
-        <CssBaseline style={{height: '100vh'}}>
+        <CssBaseline>
             <Router>
                 <Routes>
+                    {/* Auth Landing Page */}
+                    { (true === false)  ? (
+                        <Route path="/login" element={<LoginHandler redirectTo='/user/profile' />} /> 
+                    ) : (
+                        <Route path="/login" element={<RegistrationPage />} />
+                    )}
+                    <Route path="/register" element={<RegistrationPage />} />
                     {/* Internal Pages */}
                     <Route path="/user/*" element={<InternalWrapper />}>
                         { isAuthenticated && <>

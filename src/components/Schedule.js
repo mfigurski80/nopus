@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import { listHours, scheduleByDay, stringToColor } from 'utils';
 
 const WEEK_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -14,7 +13,7 @@ export default function Schedule({schedule, timeRange: [ start, end ]}) {
             <TimeColumn nRows={nRows/4}>
                 <p></p>
                 { listHours(start, end).map(h => (
-                    <h4 id={h}>{h}</h4>
+                    <h4 key={h}>{h}</h4>
                 )) }
             </TimeColumn>
             { dailySchedule.map((sch, i) => (
