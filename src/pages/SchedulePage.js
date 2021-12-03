@@ -100,7 +100,6 @@ export default function SchedulePage() {
             You don't have a Spring 2022 schedule yet.
             <Button onClick={handleCreateSchedule} sx={{background: "#FFDB5A", color: 'white', margin: '20px'}}>Create your schedule</Button>
             </div>
-            <Preferences />
           </TabPanel>
         </SwipeableViews>
         </Box>

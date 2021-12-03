@@ -66,10 +66,6 @@ export default function SchedulePage() {
       setValue(index);
     };
 
-    const handleCreateSchedule = (event) => {
-      navigate('/user/schedule/create');
-    };
-
     return (
         <Box sx={{ bgcolor: 'background.paper', width: '95%' }}>
         <AppBar position="static" >
@@ -98,11 +94,7 @@ export default function SchedulePage() {
             <Preferences />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction} >
-            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-            You don't have a Spring 2022 schedule yet.
-            <Button onClick={handleCreateSchedule} sx={{background: "#FFDB5A", color: 'white', margin: '20px'}}>Create your schedule</Button>
-            </div>
-            <Preferences />
+              <CourseSelector />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
             <Schedule schedule={schedule} timeRange={[8*60, 18*60]}/>
