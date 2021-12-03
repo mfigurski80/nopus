@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Container } from '@material-ui/core';
 import {
     Link
@@ -17,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Schedule from 'components/Schedule';
 import Preferences from 'components/Preferences';
+import CourseSelector from 'components/CourseSelector';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,15 +47,7 @@ function allyProps(index) {
 }
 
 export default function SchedulePage() {
-    
-    useEffect(async () => {
-        let resp = await fetch('https://nopus-backend.herokuapp.com/home/schedule', {
-            method: 'POST',
-            mode: 'no-cors'
-        });
-        console.log(resp);
-    }, []);
-    
+
     const schedule = [
         { start: 60*9, end: 60*10 + 30, name: 'CS 170', days: [0,2] },
         { start: 60*10, end: 60*11, name: 'CS 171', days: [1,3] },
@@ -79,7 +71,7 @@ export default function SchedulePage() {
     };
 
     return (
-        <Box sx={{ bgcolor: 'background.paper', width: '90%' }}>
+        <Box sx={{ bgcolor: 'background.paper', width: '95%' }}>
         <AppBar position="static" >
           <Tabs
             value={value}
@@ -92,8 +84,9 @@ export default function SchedulePage() {
              style: { background: "#64B5FF", height: "5px"}
            }}
           >
-            <Tab label="Fall 2021" {...allyProps(0)}/>
-            <Tab label="Spring 2022" {...allyProps(1)}/>
+            <Tab label="Choose Availability" {...allyProps(0)}/>
+            <Tab label="Add Courses" {...allyProps(1)}/>
+            <Tab label="Choose Schedule" {...allyProps(2)}/>
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -102,7 +95,7 @@ export default function SchedulePage() {
           onChangeIndex={handleChangeIndex}
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
-            <Schedule schedule={schedule} timeRange={[8*60, 18*60]}/>
+            <Preferences />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction} >
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
@@ -110,6 +103,9 @@ export default function SchedulePage() {
             <Button onClick={handleCreateSchedule} sx={{background: "#FFDB5A", color: 'white', margin: '20px'}}>Create your schedule</Button>
             </div>
             <Preferences />
+          </TabPanel>
+          <TabPanel value={value} index={2} dir={theme.direction}>
+            <Schedule schedule={schedule} timeRange={[8*60, 18*60]}/>
           </TabPanel>
         </SwipeableViews>
         </Box>
