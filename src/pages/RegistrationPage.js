@@ -6,24 +6,11 @@ import {
     FormControl, Select, MenuItem, TextField,
 } from '@material-ui/core';
 import { useAuth0 } from '@auth0/auth0-react'
+import { useNavigate } from 'react-router-dom';
 
 import SidebarLayout from 'components/SidebarLayout';
 import StepItem from 'components/StepItem';
-import { useNavigate } from 'react-router-dom';
-
-const post = ( url, data ) => new Promise((resolve, reject) => {
-    let req = new XMLHttpRequest();
-    req.addEventListener('load', () => {
-        if (req.status === 200) {
-            resolve(req.response);
-        } else {
-            reject(Error(req.statusText));
-        }
-    });
-    req.open('POST', url, true);
-    req.setRequestHeader('Content-Type', 'application/json');
-    req.send(JSON.stringify(data));
-});
+import { post } from 'utils';
 
 const STAGES = ['MAJOR & GRADUATION', 'COURSES TAKEN'];
 

@@ -30,7 +30,7 @@ function TabPanel({ children, value, index, ...other }) {
     >
       {value === index && (
         <Box sx={{ p: 2, displayItems: 'flex', alignItems: 'center', justifyContent: 'center', padding: 6 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>

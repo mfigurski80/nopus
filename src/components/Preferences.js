@@ -1,24 +1,35 @@
+import { useAuth0 } from '@auth0/auth0-react'
 import { useState, useEffect, useRef } from "react";
-import Paper from "@material-ui/core/Paper";
+
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import AvailabilityChart from "./AvailabilityChart";
 import Select from 'react-select'
 
+import { post } from 'utils';
+
 function Preferences() {
     const [timeRanges, setTimeRanges] = useState(Array(5).fill([8, 20]))
-    const minCredits = useRef(0)
-    const maxCredits = useRef(0)
+    const minCredits = useRef(null)
+    const maxCredits = useRef(null)
+
+    const { user } = useAuth0();
+
 
     const options = []
     useEffect(() => {
         for (let i = 0; i < 24; i++) {
             options.push({value: i, label: i.toString()})
         }
+        return onSubmit
     }, [])
 
-    const onSubmit = () => {
-
+    const onSubmit = async () => {
+        await post(`https://nopus-backend.herokuapp.com/profile/preferences/${user.sub}`, {
+            timeRanges,
+            minCredits: minCredits.current?.value || 0,
+            maxCredits: maxCredits.current?.value || 0,
+        }).catch(console.error)
     }
 
     return (
