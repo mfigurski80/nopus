@@ -11,7 +11,6 @@ export default function ProfilePage() {
         <>
             <h1>Profile</h1>
             <LoginButton />
-            <LogoutButton />
             <Profile />
         </>
     )

@@ -14,6 +14,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import CardMedia from '@mui/material/CardMedia';
 import Card from '@mui/material/Card';
+import LogoutButton from "./LogoutButton";
 
 export default function InternalNav() {
   const drawerWidth = 600;
@@ -45,9 +46,7 @@ export default function InternalNav() {
       </NavButton>
       </MenuList>
     </Nav>
-    <ListItemButton sx={{margin: 1}}>
-      <ListItemText primary="Sign Out" />
-    </ListItemButton>
+    <LogoutButton>Logout</LogoutButton>
   </Drawer>
 }
 
