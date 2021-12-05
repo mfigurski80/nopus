@@ -25,7 +25,7 @@ function Preferences() {
     }, [])
 
     const onSubmit = async () => {
-        await post(`https://nopus-backend.herokuapp.com/profile/preferences/${user.sub}`, {
+        await post(`https://nopus-backend.herokuapp.com/profile/preferences/${user.sub.split('|')[1]}`, {
             timeRanges,
             minCredits: minCredits.current?.value || 0,
             maxCredits: maxCredits.current?.value || 0,
