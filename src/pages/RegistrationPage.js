@@ -9,6 +9,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 import SidebarLayout from 'components/SidebarLayout';
 import StepItem from 'components/StepItem';
+import { useNavigate } from 'react-router-dom';
 
 const post = ( url, data ) => new Promise((resolve, reject) => {
     let req = new XMLHttpRequest();
@@ -43,9 +44,9 @@ export default function RegistrationPage() {
         setUserInfo({...userInfo, ...obj});
     }
 
+    let navigate = useNavigate();
     const onComplete = async () => {
         const userId = user.sub.split('|')[1];
-        // TODO: send userInfo to backend
         console.log(`https://nopus-backend.herokuapp.com/profile/majorMinor/${userId}`);
         const [res1, res2] = await Promise.all([
             post(`https://nopus-backend.herokuapp.com/profile/majorMinor/${userId}`, {
@@ -60,6 +61,7 @@ export default function RegistrationPage() {
         ]);
         console.log(res1, res2);
         alert('User Info Submitted');
+        navigate('/user/schedule');
     }
 
     return (
