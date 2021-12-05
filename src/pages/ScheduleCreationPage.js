@@ -6,7 +6,7 @@ import styled from 'styled-components'; // https://styled-components.com/
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import * as React from 'react';
+import { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
@@ -18,8 +18,7 @@ import Schedule from 'components/Schedule';
 import Preferences from 'components/Preferences';
 import CourseSelector from 'components/CourseSelector';
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+function TabPanel({ children, value, index, ...other }) {
 
   return (
     <div
@@ -30,7 +29,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3, displayItems: 'flex', alignItems: 'center', justifyContent: 'center', padding: 5 }}>
+        <Box sx={{ p: 2, displayItems: 'flex', alignItems: 'center', justifyContent: 'center', padding: 6 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -55,7 +54,7 @@ export default function SchedulePage() {
     ];
 
     const theme = useTheme();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
     const navigate = useNavigate();
 
     const handleChange = (event, newValue) => {
@@ -110,13 +109,3 @@ const NavLink = styled(Link)`
     color: inherit;
     font-weight: bold;
 `
-
-const container = {
-  padding: 10,
-  marginRight: 20,
-  display: 'flex',
-};
-
-const scheduleContainer = {
-  width: 300
-};

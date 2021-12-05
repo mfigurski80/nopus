@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Slider } from '@mui/material';
 
 const convertTime = (hours) => {
@@ -14,7 +13,7 @@ const convertTime = (hours) => {
       return hours + suffix;
 }
 
-function RangeSlider(props) {
+function RangeSlider({ day, val=[8,20], setVal }) {
     const gfg = [
         {
           value: 8,
@@ -46,21 +45,21 @@ function RangeSlider(props) {
         },
       ];
       
-      const [val, setVal] = useState([8,20]);
       const updateRange = (e, data) => {
         setVal(data);
       };
       return (
         <div>
           <div style={{ width: 500, margin: 30 }}>
-            <span> {props.day} : {convertTime(val[0])} to {convertTime(val[1])}</span>{" "}
+            <span> {day} : {convertTime(val[0])} to {convertTime(val[1])}</span>{" "}
             <Slider 
-            value={val} 
-            onChange={updateRange} 
-            min={8}
-            max={20}
-            marks={gfg} />
-          </div>{" "}
+              value={val} 
+              onChange={updateRange} 
+              min={8}
+              max={20}
+              marks={gfg}
+            />
+          </div>
         </div>
       );
     }
