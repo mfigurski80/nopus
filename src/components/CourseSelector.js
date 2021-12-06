@@ -18,10 +18,11 @@ function CourseSelector({ setSchedule }) {
 
     const getSchedule = async () => {
         console.log("Courses var: ", coursesRef.current)
-        await post(`https://nopus-backend.herokuapp.com/home/schedule`, {
+        let sch = await post(`https://nopus-backend.herokuapp.com/home/schedule`, {
             uid: user.sub.split('|')[1],
             courses: coursesRef.current
         }).catch(console.error)
+        console.log("Schedule: ", sch)
     }
 
     return (
