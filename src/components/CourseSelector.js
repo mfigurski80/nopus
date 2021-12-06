@@ -1,6 +1,7 @@
 import { TextField, Typography, Box, Button } from '@material-ui/core'
 import styled from 'styled-components'; // https://styled-components.com/
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
 import { Stack } from '@mui/material';
 
 import { post } from 'utils'
@@ -8,15 +9,20 @@ import { post } from 'utils'
 function CourseSelector({ setSchedule }) {
     const [courses, setCourses] = useState([])
     const [courseInput, setCourseInput] = useState("")
-
+    const coursesRef = useRef(null) // points to courses, prevents multiple api calls
     const { user } = useAuth0();
 
-    useEffect(() => async () => {
+    useEffect(() => coursesRef.current = courses, [courses]) // write ref
+    useEffect(() => getSchedule, [coursesRef]) // getSchedule on unmount
+
+
+    const getSchedule = async () => {
+        console.log("Courses var: ", coursesRef.current)
         await post(`https://nopus-backend.herokuapp.com/home/schedule`, {
             uid: user.sub.split('|')[1],
-            coursesTaken: courses
+            courses: coursesRef.current
         }).catch(console.error)
-    })
+    }
 
     return (
         <Box p={2}>

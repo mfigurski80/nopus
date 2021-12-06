@@ -13,22 +13,28 @@ function Preferences() {
     const minCredits = useRef(null)
     const maxCredits = useRef(null)
 
+    const timeRangeRef = useRef(null)
+
     const { user } = useAuth0();
 
 
     const options = []
     useEffect(() => {
         for (let i = 0; i < 24; i++) {
-            options.push({value: i, label: i.toString()})
+            options.push({ value: i, label: i.toString() })
         }
-        return onSubmit
-    }, [])
+    })
+    useEffect(() => timeRangeRef.current = timeRanges, [timeRanges]) // keep timeRange synchronized for exit
+    useEffect(() => onSubmit, [minCredits, maxCredits, timeRangeRef]) // on exit... send request
 
     const onSubmit = async () => {
+        console.log('Running request: ', minCredits.current)
+        let rangeObj = {}
+        timeRangeRef.current.forEach((r, i) => rangeObj[i+2] = {start: r[0], end: r[1]})
         await post(`https://nopus-backend.herokuapp.com/profile/preferences/${user.sub.split('|')[1]}`, {
-            timeRanges,
-            minCredits: minCredits.current?.value || 0,
-            maxCredits: maxCredits.current?.value || 0,
+            timeRanges: rangeObj,
+            minCredit: minCredits.current?.value || 0,
+            maxCredit: maxCredits.current?.value || 23,
         }).catch(console.error)
     }
 
@@ -46,7 +52,7 @@ function Preferences() {
                     </div>
                     <div style={{width: '10em', padding:'1em'}}>
                         <Typography>Maximum</Typography>
-                        <Select options={options} ref={maxCredits}/>
+                        <Select options={options} ref={maxCredits} s/>
                     </div>
                 </div>
                 <div style={{paddingLeft: '2em'}}>
