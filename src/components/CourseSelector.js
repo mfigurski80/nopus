@@ -3,10 +3,13 @@ import styled from 'styled-components'; // https://styled-components.com/
 import { useState, useEffect, useRef } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Stack } from '@mui/material';
+import axios from 'axios';
 
 import { post } from 'utils'
 
 function CourseSelector({ setSchedule }) {
+    const [APIData, setAPIData] = useState([]);
+    const [filteredResults, setFilteredResults] = useState([]);
     const [courses, setCourses] = useState([])
     const [courseInput, setCourseInput] = useState("")
     const coursesRef = useRef(null) // points to courses, prevents multiple api calls
@@ -14,7 +17,25 @@ function CourseSelector({ setSchedule }) {
 
     useEffect(() => coursesRef.current = courses, [courses]) // write ref
     useEffect(() => getSchedule, [coursesRef]) // getSchedule on unmount
+    useEffect(() => {
+      axios.get(`https://nopus-backend.herokuapp.com/home/`)
+        .then((response) => {
+          setAPIData(response.data);
+        })
+    }, [])
 
+    const searchItems = (searchValue) => {
+      setCourseInput(searchValue)
+      if (courseInput != '') {
+
+        const filteredData = APIData.filter((item) => {
+          return Object.values(item).join('').toLowerCase().includes(courseInput.toLowerCase())
+        })
+        setFilteredResults(filteredData)
+      } else {
+        setFilteredResults(APIData)
+      }
+    }
 
     const getSchedule = async () => {
         console.log("Courses var: ", coursesRef.current)
@@ -27,21 +48,25 @@ function CourseSelector({ setSchedule }) {
 
     return (
         <Box p={2}>
-            <div style={{display:'flex', flexDirection:'row'}}> 
+            <div style={{display:'flex', flexDirection:'row'}}>
                 <Stack>
-                    <div style={{padding:'10px'}}> 
+                    <div style={{padding:'10px'}}>
                         <Typography variant='h4'>Add Classes</Typography>
                         <Typography>Choose any classes that you want to include in your schedule</Typography>
                     </div>
                     <InputForm onSubmit={(e) => e.preventDefault()}>
-                        <TextField variant='filled' value={courseInput} onChange={v => setCourseInput(v.target.value)}/>
+                        <TextField variant='filled' value={courseInput} onChange={(v) => searchItems(v.target.value)}/>
                         <Button onClick={e => {
+                          if (filteredResults.length != 0) {
                             setCourses([...courses, courseInput]);
                             setCourseInput('');
+                          } else {
+                            alert("Course not found. Make sure you format your search with a space (e.g. 'CS 370').");
+                          }
                         }}>Add</Button>
                     </InputForm>
                     <CourseDisplay>
-                        {(courses).map((c, i) => 
+                        {(courses).map((c, i) =>
                             <CourseItem key={i}>
                                 {c}
                                 <DeleteCourse onClick={() => setCourses(
