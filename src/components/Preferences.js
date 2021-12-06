@@ -6,10 +6,22 @@ import Typography from "@material-ui/core/Typography";
 import AvailabilityChart from "./AvailabilityChart";
 
 import { post } from 'utils';
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 
 function Preferences() {
     const [timeRanges, setTimeRanges] = useState(Array(5).fill([8, 20]))
+
+    // Handlers for min and max values 
+    const [minCredit, setMinValue] = useState();
+    const handleMinChange = (value) => {
+        setMinValue(value);
+    };
+    const [maxCredit, setMaxValue] = useState();
+    const handleMaxChange = (value) => {
+        setMaxValue(value);
+    };
+
+
     const minCredits = useRef(null)
     const maxCredits = useRef(null)
 
@@ -37,8 +49,8 @@ function Preferences() {
         // FIXME: maxCredits and minCredits are not being read rn
         await post(`https://nopus-backend.herokuapp.com/profile/preferences/${user.sub.split('|')[1]}`, {
             availabilities: rangeObj,
-            minCredit: minCredits.current?.value || 0,
-            maxCredit: maxCredits.current?.value || 23,
+            minCredit: minCredits.target?.value || 0,
+            maxCredit: maxCredits.target?.value || 23,
         }).catch(console.error)
     }
 
@@ -53,7 +65,7 @@ function Preferences() {
                     <div style={{width: '10em', padding:'1em'}}>
                         <FormControl fullWidth>
                             <InputLabel id='minCredits'>Minimum</InputLabel>
-                                <Select>
+                                <Select value={minCredit} onChange={handleMinChange}>
                                     {options?.map(option => {
                                         return (
                                             <MenuItem key={option.value} value={option.value}>
@@ -67,7 +79,7 @@ function Preferences() {
                     <div style={{width: '10em', padding:'1em'}}>
                         <FormControl fullWidth>
                             <InputLabel id='maxCredits'>Maximum</InputLabel>
-                                <Select>
+                                <Select value={maxCredit} onChange={handleMaxChange}>
                                     {options?.map(option => {
                                         return (
                                             <MenuItem key={option.value} value={option.value}>
@@ -77,6 +89,9 @@ function Preferences() {
                                  })}
                             </Select>
                         </FormControl>
+                    </div>
+                    <div style={{paddingTop: '3em'}}>
+                        <Button onClick={onSubmit} sx={{background: "#FFDB5A", color: 'white', margin: '20px'}}>bruh</Button>
                     </div>
                 </div>
                 <div style={{paddingLeft: '2em'}}>
