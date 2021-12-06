@@ -33,7 +33,7 @@ function Preferences() {
         timeRangeRef.current.forEach((r, i) => rangeObj[i+2] = {start: r[0], end: r[1]})
         // FIXME: maxCredits and minCredits are not being read rn
         await post(`https://nopus-backend.herokuapp.com/profile/preferences/${user.sub.split('|')[1]}`, {
-            timeRanges: rangeObj,
+            availabilities: rangeObj,
             minCredit: minCredits.current?.value || 0,
             maxCredit: maxCredits.current?.value || 23,
         }).catch(console.error)
