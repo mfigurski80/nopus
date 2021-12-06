@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from "react";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import AvailabilityChart from "./AvailabilityChart";
-import Select from 'react-select'
 
 import { post } from 'utils';
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 
 function Preferences() {
     const [timeRanges, setTimeRanges] = useState(Array(5).fill([8, 20]))
@@ -19,6 +19,9 @@ function Preferences() {
 
 
     const options = []
+    for (let i = 0; i < 24; i++) {
+        options.push({ value: i, label: i.toString() })
+    }
     useEffect(() => {
         for (let i = 0; i < 24; i++) {
             options.push({ value: i, label: i.toString() })
@@ -48,12 +51,32 @@ function Preferences() {
                         <Typography variant="h5">CREDIT LIMIT</Typography>
                     </div>
                     <div style={{width: '10em', padding:'1em'}}>
-                        <Typography>Minimum</Typography>
-                        <Select options={options} ref={minCredits}/>
+                        <FormControl fullWidth>
+                            <InputLabel id='minCredits'>Minimum</InputLabel>
+                                <Select>
+                                    {options?.map(option => {
+                                        return (
+                                            <MenuItem key={option.value} value={option.value}>
+                                            {option.label ?? option.value}
+                                            </MenuItem>
+                                        );
+                                    })}
+                                </Select>
+                        </FormControl>
                     </div>
                     <div style={{width: '10em', padding:'1em'}}>
-                        <Typography>Maximum</Typography>
-                        <Select options={options} ref={maxCredits} s/>
+                        <FormControl fullWidth>
+                            <InputLabel id='maxCredits'>Maximum</InputLabel>
+                                <Select>
+                                    {options?.map(option => {
+                                        return (
+                                            <MenuItem key={option.value} value={option.value}>
+                                            {option.label ?? option.value}
+                                        </MenuItem>
+                                     );
+                                 })}
+                            </Select>
+                        </FormControl>
                     </div>
                 </div>
                 <div style={{paddingLeft: '2em'}}>
