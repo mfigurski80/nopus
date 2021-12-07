@@ -1,29 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components'; // https://styled-components.com/
-import { 
+import {
     Container,
     Button,
     FormControl, Select, MenuItem, TextField,
 } from '@material-ui/core';
 import { useAuth0 } from '@auth0/auth0-react'
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import SidebarLayout from 'components/SidebarLayout';
 import StepItem from 'components/StepItem';
-import { useNavigate } from 'react-router-dom';
-
-const post = ( url, data ) => new Promise((resolve, reject) => {
-    let req = new XMLHttpRequest();
-    req.addEventListener('load', () => {
-        if (req.status === 200) {
-            resolve(req.response);
-        } else {
-            reject(Error(req.statusText));
-        }
-    });
-    req.open('POST', url, true);
-    req.setRequestHeader('Content-Type', 'application/json');
-    req.send(JSON.stringify(data));
-});
+import { post } from 'utils';
 
 const STAGES = ['MAJOR & GRADUATION', 'COURSES TAKEN'];
 
@@ -39,10 +27,33 @@ export default function RegistrationPage() {
     });
     const [stage, setStage] = useState(0);
     const { user } = useAuth0();
+    const [filteredResults, setFilteredResults] = useState([]);
 
     const setParams = (obj) => {
         setUserInfo({...userInfo, ...obj});
     }
+
+    const setResults = (results) => {
+      setFilteredResults(results);
+    }
+
+    const searchItems = async (searchValue) => {
+      if (userInfo.courseInput != '') {
+        try {
+          const response = await axios.get(`https://nopus-backend.herokuapp.com/home/${userInfo.courseInput}`)
+          setFilteredResults(response.data);
+        } catch (error) {
+          console.error(error);
+          setFilteredResults([]);
+        }
+      } else {
+        setFilteredResults([])
+      }
+    }
+
+    useEffect(() => {
+      searchItems(userInfo.courseInput);
+    }, [userInfo.courseInput]);
 
     let navigate = useNavigate();
     const onComplete = async () => {
@@ -67,13 +78,13 @@ export default function RegistrationPage() {
     return (
         <SidebarLayout contents={
             <>
-                {STAGES.map((s, i) => 
+                {STAGES.map((s, i) =>
                     <StepItem key={i} number={i+1} active={i === stage} onClick={e => setStage(i)}>{s}</StepItem>
                 )}
             </>
         }>
             <SeparatedContainer maxWidth="md">
-                { [ MajorSection, CoursesSection ][stage](userInfo, setParams) }
+                { [ MajorSection, CoursesSection ][stage](userInfo, setParams, setResults, filteredResults) }
             </SeparatedContainer>
             <Footer>
                 {stage === STAGES.length - 1 ? (
@@ -91,7 +102,7 @@ export default function RegistrationPage() {
     )
 }
 
-const MajorSection = (info, setParams) => (
+const MajorSection = (info, setParams, setResults) => (
     <>
         <h1>Major & Intended Graduation</h1>
         <p>Select the degree(s) you are working towards and the term limit you intend to graduate</p>
@@ -112,43 +123,144 @@ const MajorSection = (info, setParams) => (
                     majors[i] = e.target.value;
                     setParams({majors});
                 }} label='Major'>
+                    <MenuItem value={'ACT'}>Accounting</MenuItem>
+                    <MenuItem value={'AAS'}>African American Studies</MenuItem>
+                    <MenuItem value={'AFS'}>African Studies</MenuItem>
+                    <MenuItem value={'AMST'}>American Studies</MenuItem>
+                    <MenuItem value={'ANES'}>Anesthesiology</MenuItem>
+                    <MenuItem value={'ANT'}>Anthropology</MenuItem>
+                    <MenuItem value={'ARAB'}>Arabic</MenuItem>
+                    <MenuItem value={'BIOETH'}>Bioethics</MenuItem>
+                    <MenuItem value={'CHEM'}>Chemistry</MenuItem>
+                    <MenuItem value={'CHN'}>Chinese</MenuItem>
+                    <MenuItem value={'CL'}>Classics</MenuItem>
                     <MenuItem value={'CS'}>Computer Science</MenuItem>
+                    <MenuItem value={'DANC'}>Dance</MenuItem>
+                    <MenuItem value={'EAS'}>East Asian Studies</MenuItem>
                     <MenuItem value={'ECON'}>Economics</MenuItem>
+                    <MenuItem value={'ENG'}>English</MenuItem>
+                    <MenuItem value={'ENVS'}>Environmental Studies</MenuItem>
+                    <MenuItem value={'FILM'}>Film Studies</MenuItem>
+                    <MenuItem value={'FREN'}>French</MenuItem>
+                    <MenuItem value={'GRK'}>Greek</MenuItem>
+                    <MenuItem value={'HEBR'}>Hebrew</MenuItem>
+                    <MenuItem value={'HIST'}>History</MenuItem>
+                    <MenuItem value={'HLTH'}>Health</MenuItem>
+                    <MenuItem value={'ICIVS'}>Islamic Civilization Studies</MenuItem>
+                    <MenuItem value={'ITAL'}>Italian</MenuItem>
+                    <MenuItem value={'JPN'}>Japanese</MenuItem>
+                    <MenuItem value={'KRN'}>Korean</MenuItem>
+                    <MenuItem value={'LAT'}>Latin</MenuItem>
+                    <MenuItem value={'LING'}>Linguistics</MenuItem>
                     <MenuItem value={'MATH'}>Mathematics</MenuItem>
+                    <MenuItem value={'MUS'}>Music</MenuItem>
+                    <MenuItem value={'NS'}>Neuroscience</MenuItem>
+                    <MenuItem value={'NBB'}>Neuroscience, Behavioral Biology</MenuItem>
+                    <MenuItem value={'PERS'}>Persian</MenuItem>
+                    <MenuItem value={'PHIL'}>Philosophy</MenuItem>
+                    <MenuItem value={'PHYS'}>Physics</MenuItem>
+                    <MenuItem value={'POLS'}>Political Science</MenuItem>
+                    <MenuItem value={'PSYC'}>Psychology</MenuItem>
+                    <MenuItem value={'QTM'}>QTM</MenuItem>
+                    <MenuItem value={'REL'}>Religion</MenuItem>
+                    <MenuItem value={'SOC'}>Sociology</MenuItem>
+                    <MenuItem value={'THEA'}>Theatre</MenuItem>
+                    <MenuItem value={'WGS'}>Women and Gender Studies</MenuItem>
                 </Select>
             </FormControl>
         ))}
         { info.majors.length < 2 && (
-            <AddItem onClick={() => setParams({majors: [...info.majors, '']})}>+ Add Major</AddItem>   
+            <AddItem onClick={() => setParams({majors: [...info.majors, '']})}>+ Add Major</AddItem>
         )}
         <h4>MINOR</h4>
         { info.minor !== null ? (
             <FormControl variant="filled" fullWidth>
                 <Select value={info.minor} onChange={e => setParams({minor: e.target.value})} label='Minor'>));
-                    <MenuItem value={'CS'}>Computer Science</MenuItem>
-                    <MenuItem value={'ECON'}>Economics</MenuItem>
-                    <MenuItem value={'MATH'}>Mathematics</MenuItem>
+                <MenuItem value={'ACT'}>Accounting</MenuItem>
+                <MenuItem value={'AAS'}>African American Studies</MenuItem>
+                <MenuItem value={'AFS'}>African Studies</MenuItem>
+                <MenuItem value={'AMST'}>American Studies</MenuItem>
+                <MenuItem value={'ANES'}>Anesthesiology</MenuItem>
+                <MenuItem value={'ANT'}>Anthropology</MenuItem>
+                <MenuItem value={'ARAB'}>Arabic</MenuItem>
+                <MenuItem value={'BIOETH'}>Bioethics</MenuItem>
+                <MenuItem value={'CHEM'}>Chemistry</MenuItem>
+                <MenuItem value={'CHN'}>Chinese</MenuItem>
+                <MenuItem value={'CL'}>Classics</MenuItem>
+                <MenuItem value={'CS'}>Computer Science</MenuItem>
+                <MenuItem value={'DANC'}>Dance</MenuItem>
+                <MenuItem value={'EAS'}>East Asian Studies</MenuItem>
+                <MenuItem value={'ECON'}>Economics</MenuItem>
+                <MenuItem value={'ENG'}>English</MenuItem>
+                <MenuItem value={'ENVS'}>Environmental Studies</MenuItem>
+                <MenuItem value={'FILM'}>Film Studies</MenuItem>
+                <MenuItem value={'FREN'}>French</MenuItem>
+                <MenuItem value={'GRK'}>Greek</MenuItem>
+                <MenuItem value={'HEBR'}>Hebrew</MenuItem>
+                <MenuItem value={'HIST'}>History</MenuItem>
+                <MenuItem value={'HLTH'}>Health</MenuItem>
+                <MenuItem value={'ICIVS'}>Islamic Civilization Studies</MenuItem>
+                <MenuItem value={'ITAL'}>Italian</MenuItem>
+                <MenuItem value={'JPN'}>Japanese</MenuItem>
+                <MenuItem value={'KRN'}>Korean</MenuItem>
+                <MenuItem value={'LAT'}>Latin</MenuItem>
+                <MenuItem value={'LING'}>Linguistics</MenuItem>
+                <MenuItem value={'MATH'}>Mathematics</MenuItem>
+                <MenuItem value={'MUS'}>Music</MenuItem>
+                <MenuItem value={'NS'}>Neuroscience</MenuItem>
+                <MenuItem value={'NBB'}>Neuroscience, Behavioral Biology</MenuItem>
+                <MenuItem value={'PERS'}>Persian</MenuItem>
+                <MenuItem value={'PHIL'}>Philosophy</MenuItem>
+                <MenuItem value={'PHYS'}>Physics</MenuItem>
+                <MenuItem value={'POLS'}>Political Science</MenuItem>
+                <MenuItem value={'PSYC'}>Psychology</MenuItem>
+                <MenuItem value={'QTM'}>QTM</MenuItem>
+                <MenuItem value={'REL'}>Religion</MenuItem>
+                <MenuItem value={'SOC'}>Sociology</MenuItem>
+                <MenuItem value={'THEA'}>Theatre</MenuItem>
+                <MenuItem value={'WGS'}>Women and Gender Studies</MenuItem>
                 </Select>
             </FormControl>
         ) : (
             <AddItem onClick={() => setParams({minor: ''})}>+ Add Minor</AddItem>
         )}
-    
+
 
     </>
 )
 
-const CoursesSection = (info, setParams) => (
+function containsObject(string, list) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+      const listCopy = list[i].toLowerCase();
+      const stringCopy = string.toLowerCase();
+      if (listCopy == stringCopy) {
+        return true;
+      }
+    }
+    return false;
+}
+
+const CoursesSection = (info, setParams, setResults, filteredResults) => (
     <>
         <h1>Completed Courses</h1>
         <p>Add all of the courses that you have completed or are in the process of completing to help us track your degree progress, general education requirements, and general course history.</p>
         <h4>ADD A COURSE</h4>
         <InputForm onSubmit={(e) => e.preventDefault()}>
             <TextField variant='filled' value={info.courseInput} onChange={v => setParams({courseInput: v.target.value})}/>
-            <Button onClick={e => setParams({courses: [...info.courses, info.courseInput], courseInput: ''})}>Add</Button>
+            <Button onClick={(e) => {
+              if (filteredResults.length != 0 && !containsObject(info.courseInput, info.courses)) {
+                setParams({courses: [...info.courses, info.courseInput], courseInput: ''})
+                setResults([])
+              } else if (containsObject(info.courseInput, info.courses)) {
+                alert("This course has already been added.")
+              } else {
+                alert("Course not found. Make sure you format your search with a space (e.g. 'CS 370').");
+              }
+            }}>Add</Button>
         </InputForm>
         <CourseDisplay>
-            {(info.courses).map((c, i) => 
+            {(info.courses).map((c, i) =>
                 <CourseItem key={i}>
                     {c}
                     <DeleteCourse onClick={() => setParams({
