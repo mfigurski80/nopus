@@ -14,6 +14,7 @@ import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react'
 
 import Schedule from 'components/Schedule';
 import Preferences from 'components/Preferences';
@@ -31,7 +32,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3, displayItems: 'flex', alignItems: 'center', justifyContent: 'center', padding: 5 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -47,21 +48,26 @@ function allyProps(index) {
 }
 
 export default function SchedulePage() {
+    const { user } = useAuth0();
+    const [ schedule, setSchedule ] = React.useState([
+      { start: 60*9, end: 60*10 + 30, name: 'CS 170', days: [0,2] },
+      { start: 60*10, end: 60*11, name: 'CS 171', days: [1,3] },
+      { start: 60*14, end: 60*15, name: 'CS 224', days: [0,2,4] },
+  ]);
     
     useEffect(async () => {
-        let resp = await fetch('https://nopus-backend.herokuapp.com/home/schedule', {
-            method: 'POST',
-            mode: 'no-cors'
-        });
-        console.log(resp);
+        let resp = await fetch(`https://nopus-backend.herokuapp.com/home/getSchedule/${user.sub.split('|')[1]}`);
+        let data = await resp.json();
+        let sched = data.map((c) => ({
+          name: c.code + '-' + c.section,
+          start: c.meeting[0][1] * 60,
+          end: c.meeting[0][2] * 60,
+          days: c.meeting.map(m => m[0] - 2),
+        }));
+        console.log(sched);
+        setSchedule(sched);
     }, []);
     
-    const schedule = [
-        { start: 60*9, end: 60*10 + 30, name: 'CS 170', days: [0,2] },
-        { start: 60*10, end: 60*11, name: 'CS 171', days: [1,3] },
-        { start: 60*14, end: 60*15, name: 'CS 224', days: [0,2,4] },
-    ];
-
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
     const navigate = useNavigate();
