@@ -1,6 +1,7 @@
 import { TextField, Typography, Box, Button } from '@material-ui/core'
 import styled from 'styled-components'; // https://styled-components.com/
 import { useState, useEffect, useRef } from 'react'
+import { Link } from "react-router-dom";
 import { useAuth0 } from '@auth0/auth0-react'
 import { Stack } from '@mui/material';
 import axios from 'axios';
@@ -101,7 +102,7 @@ function CourseSelector({ setSchedule }) {
                     </CourseDisplay>
                 </Stack>
             </div>
-            <Button>Generate New Course</Button>
+            <Link to="/user/schedule"><Button>Generate New Schedule</Button></Link>
         </Box>
     )
 }
