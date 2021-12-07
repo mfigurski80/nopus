@@ -101,6 +101,7 @@ function CourseSelector({ setSchedule }) {
                     </CourseDisplay>
                 </Stack>
             </div>
+            <Button>Generate New Course</Button>
         </Box>
     )
 }
