@@ -123,9 +123,49 @@ const MajorSection = (info, setParams, setResults) => (
                     majors[i] = e.target.value;
                     setParams({majors});
                 }} label='Major'>
+                    <MenuItem value={'ACT'}>Accounting</MenuItem>
+                    <MenuItem value={'AAS'}>African American Studies</MenuItem>
+                    <MenuItem value={'AFS'}>African Studies</MenuItem>
+                    <MenuItem value={'AMST'}>American Studies</MenuItem>
+                    <MenuItem value={'ANES'}>Anesthesiology</MenuItem>
+                    <MenuItem value={'ANT'}>Anthropology</MenuItem>
+                    <MenuItem value={'ARAB'}>Arabic</MenuItem>
+                    <MenuItem value={'BIOETH'}>Bioethics</MenuItem>
+                    <MenuItem value={'CHEM'}>Chemistry</MenuItem>
+                    <MenuItem value={'CHN'}>Chinese</MenuItem>
+                    <MenuItem value={'CL'}>Classics</MenuItem>
                     <MenuItem value={'CS'}>Computer Science</MenuItem>
+                    <MenuItem value={'DANC'}>Dance</MenuItem>
+                    <MenuItem value={'EAS'}>East Asian Studies</MenuItem>
                     <MenuItem value={'ECON'}>Economics</MenuItem>
+                    <MenuItem value={'ENG'}>English</MenuItem>
+                    <MenuItem value={'ENVS'}>Environmental Studies</MenuItem>
+                    <MenuItem value={'FILM'}>Film Studies</MenuItem>
+                    <MenuItem value={'FREN'}>French</MenuItem>
+                    <MenuItem value={'GRK'}>Greek</MenuItem>
+                    <MenuItem value={'HEBR'}>Hebrew</MenuItem>
+                    <MenuItem value={'HIST'}>History</MenuItem>
+                    <MenuItem value={'HLTH'}>Health</MenuItem>
+                    <MenuItem value={'ICIVS'}>Islamic Civilization Studies</MenuItem>
+                    <MenuItem value={'ITAL'}>Italian</MenuItem>
+                    <MenuItem value={'JPN'}>Japanese</MenuItem>
+                    <MenuItem value={'KRN'}>Korean</MenuItem>
+                    <MenuItem value={'LAT'}>Latin</MenuItem>
+                    <MenuItem value={'LING'}>Linguistics</MenuItem>
                     <MenuItem value={'MATH'}>Mathematics</MenuItem>
+                    <MenuItem value={'MUS'}>Music</MenuItem>
+                    <MenuItem value={'NS'}>Neuroscience</MenuItem>
+                    <MenuItem value={'NBB'}>Neuroscience, Behavioral Biology</MenuItem>
+                    <MenuItem value={'PERS'}>Persian</MenuItem>
+                    <MenuItem value={'PHIL'}>Philosophy</MenuItem>
+                    <MenuItem value={'PHYS'}>Physics</MenuItem>
+                    <MenuItem value={'POLS'}>Political Science</MenuItem>
+                    <MenuItem value={'PSYC'}>Psychology</MenuItem>
+                    <MenuItem value={'QTM'}>QTM</MenuItem>
+                    <MenuItem value={'REL'}>Religion</MenuItem>
+                    <MenuItem value={'SOC'}>Sociology</MenuItem>
+                    <MenuItem value={'THEA'}>Theatre</MenuItem>
+                    <MenuItem value={'WGS'}>Women and Gender Studies</MenuItem>
                 </Select>
             </FormControl>
         ))}
@@ -136,9 +176,49 @@ const MajorSection = (info, setParams, setResults) => (
         { info.minor !== null ? (
             <FormControl variant="filled" fullWidth>
                 <Select value={info.minor} onChange={e => setParams({minor: e.target.value})} label='Minor'>));
-                    <MenuItem value={'CS'}>Computer Science</MenuItem>
-                    <MenuItem value={'ECON'}>Economics</MenuItem>
-                    <MenuItem value={'MATH'}>Mathematics</MenuItem>
+                <MenuItem value={'ACT'}>Accounting</MenuItem>
+                <MenuItem value={'AAS'}>African American Studies</MenuItem>
+                <MenuItem value={'AFS'}>African Studies</MenuItem>
+                <MenuItem value={'AMST'}>American Studies</MenuItem>
+                <MenuItem value={'ANES'}>Anesthesiology</MenuItem>
+                <MenuItem value={'ANT'}>Anthropology</MenuItem>
+                <MenuItem value={'ARAB'}>Arabic</MenuItem>
+                <MenuItem value={'BIOETH'}>Bioethics</MenuItem>
+                <MenuItem value={'CHEM'}>Chemistry</MenuItem>
+                <MenuItem value={'CHN'}>Chinese</MenuItem>
+                <MenuItem value={'CL'}>Classics</MenuItem>
+                <MenuItem value={'CS'}>Computer Science</MenuItem>
+                <MenuItem value={'DANC'}>Dance</MenuItem>
+                <MenuItem value={'EAS'}>East Asian Studies</MenuItem>
+                <MenuItem value={'ECON'}>Economics</MenuItem>
+                <MenuItem value={'ENG'}>English</MenuItem>
+                <MenuItem value={'ENVS'}>Environmental Studies</MenuItem>
+                <MenuItem value={'FILM'}>Film Studies</MenuItem>
+                <MenuItem value={'FREN'}>French</MenuItem>
+                <MenuItem value={'GRK'}>Greek</MenuItem>
+                <MenuItem value={'HEBR'}>Hebrew</MenuItem>
+                <MenuItem value={'HIST'}>History</MenuItem>
+                <MenuItem value={'HLTH'}>Health</MenuItem>
+                <MenuItem value={'ICIVS'}>Islamic Civilization Studies</MenuItem>
+                <MenuItem value={'ITAL'}>Italian</MenuItem>
+                <MenuItem value={'JPN'}>Japanese</MenuItem>
+                <MenuItem value={'KRN'}>Korean</MenuItem>
+                <MenuItem value={'LAT'}>Latin</MenuItem>
+                <MenuItem value={'LING'}>Linguistics</MenuItem>
+                <MenuItem value={'MATH'}>Mathematics</MenuItem>
+                <MenuItem value={'MUS'}>Music</MenuItem>
+                <MenuItem value={'NS'}>Neuroscience</MenuItem>
+                <MenuItem value={'NBB'}>Neuroscience, Behavioral Biology</MenuItem>
+                <MenuItem value={'PERS'}>Persian</MenuItem>
+                <MenuItem value={'PHIL'}>Philosophy</MenuItem>
+                <MenuItem value={'PHYS'}>Physics</MenuItem>
+                <MenuItem value={'POLS'}>Political Science</MenuItem>
+                <MenuItem value={'PSYC'}>Psychology</MenuItem>
+                <MenuItem value={'QTM'}>QTM</MenuItem>
+                <MenuItem value={'REL'}>Religion</MenuItem>
+                <MenuItem value={'SOC'}>Sociology</MenuItem>
+                <MenuItem value={'THEA'}>Theatre</MenuItem>
+                <MenuItem value={'WGS'}>Women and Gender Studies</MenuItem>
                 </Select>
             </FormControl>
         ) : (

@@ -33,22 +33,24 @@ function CourseSelector({ setSchedule }) {
       setCourseInput(event.target.value);
     };
 
-    useEffect(() => {
-      searchItems(courseInput);
-    }, [courseInput]);
+    // useEffect(() => {
+    //   searchItems(courseInput);
+    // }, [courseInput]);
 
     const searchItems = async (searchValue) => {
       if (courseInput != '') {
         try {
-          const response = await axios.get(`https://nopus-backend.herokuapp.com/home/${courseInput}`)
-          setFilteredResults(response.data);
-          console.log(setFilteredResults[0])
+          const response = await axios.get(`https://nopus-backend.herokuapp.com/home/${courseInput}`);
+          // setFilteredResults(response.data);
+          return response.data
         } catch (error) {
-          console.error(error);
-          setFilteredResults([]);
+          console.log(error);
+          // setFilteredResults([]);
+          return []
         }
       } else {
-        setFilteredResults([])
+        // setFilteredResults([])
+        return []
       }
     }
 
@@ -62,6 +64,19 @@ function CourseSelector({ setSchedule }) {
         console.log("Schedule: ", sch)
     }
 
+    const onClickAddCourse = async (e) => {
+      let searched = await searchItems(courseInput)
+      if (searched.length != 0 && !containsObject(courseInput, courses)) {
+        setCourses([...courses, courseInput]);
+        setCourseInput('');
+        setFilteredResults([]);
+      } else if (containsObject(courseInput, courses)) {
+        alert("This course has already been added.")
+      } else {
+        alert("Course not found. Make sure you format your search with a space (e.g. 'CS 370').");
+      }
+    }
+
     return (
         <Box p={2}>
             <div style={{display:'flex', flexDirection:'row'}}>
@@ -72,17 +87,7 @@ function CourseSelector({ setSchedule }) {
                     </div>
                     <InputForm onSubmit={(e) => e.preventDefault()}>
                         <TextField variant='filled' value={courseInput} onChange={handleChange}/>
-                        <Button onClick={(e) => {
-                          if (filteredResults.length != 0 && !containsObject(courseInput, courses)) {
-                            setCourses([...courses, courseInput]);
-                            setCourseInput('');
-                            setFilteredResults([]);
-                          } else if (containsObject(courseInput, courses)) {
-                            alert("This course has already been added.")
-                          } else {
-                            alert("Course not found. Make sure you format your search with a space (e.g. 'CS 370').");
-                          }
-                        }}>Add</Button>
+                        <Button onClick={onClickAddCourse}>Add</Button>
                     </InputForm>
                     <CourseDisplay>
                         {(courses).map((c, i) =>
@@ -96,6 +101,7 @@ function CourseSelector({ setSchedule }) {
                     </CourseDisplay>
                 </Stack>
             </div>
+            <Button>Generate New Course</Button>
         </Box>
     )
 }
