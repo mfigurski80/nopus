@@ -56,7 +56,8 @@ function CourseSelector({ setSchedule }) {
         console.log("Courses var: ", coursesRef.current)
         let sch = await post(`https://nopus-backend.herokuapp.com/home/schedule`, {
             uid: user.sub.split('|')[1],
-            courses: coursesRef.current
+            courses: coursesRef.current,
+            semester: 'Spring 2022'
         }).catch(console.error)
         console.log("Schedule: ", sch)
     }
