@@ -33,24 +33,17 @@ function CourseSelector({ setSchedule }) {
     const handleChange = event => {
       setCourseInput(event.target.value);
     };
-
-    // useEffect(() => {
-    //   searchItems(courseInput);
-    // }, [courseInput]);
-
+    
     const searchItems = async (searchValue) => {
       if (courseInput != '') {
         try {
           const response = await axios.get(`https://nopus-backend.herokuapp.com/home/${courseInput}`);
-          // setFilteredResults(response.data);
           return response.data
         } catch (error) {
           console.log(error);
-          // setFilteredResults([]);
           return []
         }
       } else {
-        // setFilteredResults([])
         return []
       }
     }
