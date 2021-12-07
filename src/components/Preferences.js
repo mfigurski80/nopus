@@ -21,10 +21,8 @@ function Preferences() {
         setMaxValue(value);
     };
 
-
-    const minCredits = useRef(null)
-    const maxCredits = useRef(null)
-
+    const minCreditRef = useRef(null)
+    const maxCreditRef= useRef(null)
     const timeRangeRef = useRef(null)
 
     const { user } = useAuth0();
@@ -34,23 +32,20 @@ function Preferences() {
     for (let i = 0; i < 24; i++) {
         options.push({ value: i, label: i.toString() })
     }
-    useEffect(() => {
-        for (let i = 0; i < 24; i++) {
-            options.push({ value: i, label: i.toString() })
-        }
-    })
+    useEffect(() => minCreditRef.current = minCredit, [minCredit]) // keep minCredit sync'd
+    useEffect(() => maxCreditRef.current = maxCredit, [maxCredit]) // keep maxCredit sync'd
     useEffect(() => timeRangeRef.current = timeRanges, [timeRanges]) // keep timeRange synchronized for exit
-    useEffect(() => onSubmit, [minCredits, maxCredits, timeRangeRef]) // on exit... send request
+    useEffect(() => onSubmit, [minCreditRef, maxCreditRef, timeRangeRef]) // on exit... send request
 
     const onSubmit = async () => {
-        console.log('Running request: ', minCredits.current)
+        console.log('Running request: ', minCreditRef.current)
         let rangeObj = {}
         timeRangeRef.current.forEach((r, i) => rangeObj[i+2] = {start: r[0], end: r[1]})
         // FIXME: maxCredits and minCredits are not being read rn
         await post(`https://nopus-backend.herokuapp.com/profile/preferences/${user.sub.split('|')[1]}`, {
             availabilities: rangeObj,
-            minCredit: minCredits.target?.value || 0,
-            maxCredit: maxCredits.target?.value || 23,
+            minCredit: minCreditRef.target?.value || 0,
+            maxCredit: maxCreditRef.target?.value || 23,
         }).catch(console.error)
     }
 
@@ -91,7 +86,7 @@ function Preferences() {
                         </FormControl>
                     </div>
                     <div style={{paddingTop: '3em'}}>
-                        <Button onClick={onSubmit} sx={{background: "#FFDB5A", color: 'white', margin: '20px'}}>bruh</Button>
+                        <Button variant="contained" onClick={onSubmit} sx={{background: "#FFDB5A", color: 'white', margin: '20px'}}>Submit</Button>
                     </div>
                 </div>
                 <div style={{paddingLeft: '2em'}}>
