@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components'; // https://styled-components.com/
-import { 
+import {
     Container,
     Button,
     FormControl, Select, MenuItem, TextField,
 } from '@material-ui/core';
 import { useAuth0 } from '@auth0/auth0-react'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import SidebarLayout from 'components/SidebarLayout';
 import StepItem from 'components/StepItem';
@@ -26,10 +27,33 @@ export default function RegistrationPage() {
     });
     const [stage, setStage] = useState(0);
     const { user } = useAuth0();
+    const [filteredResults, setFilteredResults] = useState([]);
 
     const setParams = (obj) => {
         setUserInfo({...userInfo, ...obj});
     }
+
+    const setResults = (results) => {
+      setFilteredResults(results);
+    }
+
+    const searchItems = async (searchValue) => {
+      if (userInfo.courseInput != '') {
+        try {
+          const response = await axios.get(`https://nopus-backend.herokuapp.com/home/${userInfo.courseInput}`)
+          setFilteredResults(response.data);
+        } catch (error) {
+          console.error(error);
+          setFilteredResults([]);
+        }
+      } else {
+        setFilteredResults([])
+      }
+    }
+
+    useEffect(() => {
+      searchItems(userInfo.courseInput);
+    }, [userInfo.courseInput]);
 
     let navigate = useNavigate();
     const onComplete = async () => {
@@ -54,13 +78,13 @@ export default function RegistrationPage() {
     return (
         <SidebarLayout contents={
             <>
-                {STAGES.map((s, i) => 
+                {STAGES.map((s, i) =>
                     <StepItem key={i} number={i+1} active={i === stage} onClick={e => setStage(i)}>{s}</StepItem>
                 )}
             </>
         }>
             <SeparatedContainer maxWidth="md">
-                { [ MajorSection, CoursesSection ][stage](userInfo, setParams) }
+                { [ MajorSection, CoursesSection ][stage](userInfo, setParams, setResults, filteredResults) }
             </SeparatedContainer>
             <Footer>
                 {stage === STAGES.length - 1 ? (
@@ -78,7 +102,7 @@ export default function RegistrationPage() {
     )
 }
 
-const MajorSection = (info, setParams) => (
+const MajorSection = (info, setParams, setResults) => (
     <>
         <h1>Major & Intended Graduation</h1>
         <p>Select the degree(s) you are working towards and the term limit you intend to graduate</p>
@@ -146,7 +170,7 @@ const MajorSection = (info, setParams) => (
             </FormControl>
         ))}
         { info.majors.length < 2 && (
-            <AddItem onClick={() => setParams({majors: [...info.majors, '']})}>+ Add Major</AddItem>   
+            <AddItem onClick={() => setParams({majors: [...info.majors, '']})}>+ Add Major</AddItem>
         )}
         <h4>MINOR</h4>
         { info.minor !== null ? (
@@ -200,22 +224,43 @@ const MajorSection = (info, setParams) => (
         ) : (
             <AddItem onClick={() => setParams({minor: ''})}>+ Add Minor</AddItem>
         )}
-    
+
 
     </>
 )
 
-const CoursesSection = (info, setParams) => (
+function containsObject(string, list) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+      const listCopy = list[i].toLowerCase();
+      const stringCopy = string.toLowerCase();
+      if (listCopy == stringCopy) {
+        return true;
+      }
+    }
+    return false;
+}
+
+const CoursesSection = (info, setParams, setResults, filteredResults) => (
     <>
         <h1>Completed Courses</h1>
         <p>Add all of the courses that you have completed or are in the process of completing to help us track your degree progress, general education requirements, and general course history.</p>
         <h4>ADD A COURSE</h4>
         <InputForm onSubmit={(e) => e.preventDefault()}>
             <TextField variant='filled' value={info.courseInput} onChange={v => setParams({courseInput: v.target.value})}/>
-            <Button onClick={e => setParams({courses: [...info.courses, info.courseInput], courseInput: ''})}>Add</Button>
+            <Button onClick={(e) => {
+              if (filteredResults.length != 0 && !containsObject(info.courseInput, info.courses)) {
+                setParams({courses: [...info.courses, info.courseInput], courseInput: ''})
+                setResults([])
+              } else if (containsObject(info.courseInput, info.courses)) {
+                alert("This course has already been added.")
+              } else {
+                alert("Course not found. Make sure you format your search with a space (e.g. 'CS 370').");
+              }
+            }}>Add</Button>
         </InputForm>
         <CourseDisplay>
-            {(info.courses).map((c, i) => 
+            {(info.courses).map((c, i) =>
                 <CourseItem key={i}>
                     {c}
                     <DeleteCourse onClick={() => setParams({

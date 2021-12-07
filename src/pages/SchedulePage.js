@@ -49,7 +49,11 @@ function allyProps(index) {
 
 export default function SchedulePage() {
     const { user } = useAuth0();
-    const [ schedule, setSchedule ] = React.useState([]);
+    const [ schedule, setSchedule ] = React.useState([
+      { start: 60*9, end: 60*10 + 30, name: 'CS 171', days: [0,2] },
+      { start: 60*10, end: 60*11, name: 'MATH 111', days: [1,3] },
+      { start: 60*14, end: 60*15, name: 'PHIL 110', days: [0,2,4] },
+  ]);
     
     useEffect(async () => {
         let resp = await fetch(`https://nopus-backend.herokuapp.com/home/getSchedule/${user.sub.split('|')[1]}`);

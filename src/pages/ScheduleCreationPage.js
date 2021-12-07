@@ -47,11 +47,11 @@ function allyProps(index) {
 
 export default function SchedulePage() {
 
-    // const schedule = [
-    //     { start: 60*9, end: 60*10 + 30, name: 'CS 170', days: [0,2] },
-    //     { start: 60*10, end: 60*11, name: 'CS 171', days: [1,3] },
-    //     { start: 60*14, end: 60*15, name: 'CS 220', days: [0,2,4] },
-    // ];
+    const schedule = [
+      { start: 60*9, end: 60*10 + 30, name: 'CS 171', days: [0,2] },
+      { start: 60*10, end: 60*11, name: 'MATH 111', days: [1,3] },
+      { start: 60*14, end: 60*15, name: 'PHIL 110', days: [0,2,4] },
+    ];
 
     const theme = useTheme();
     const [value, setValue] = useState(0);
@@ -81,7 +81,7 @@ export default function SchedulePage() {
           >
             <Tab label="Choose Availability" {...allyProps(0)}/>
             <Tab label="Add Courses" {...allyProps(1)}/>
-            {/* <Tab label="Choose Schedule" {...allyProps(2)}/> */}
+            <Tab label="Choose Schedule" {...allyProps(2)}/>
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -95,9 +95,9 @@ export default function SchedulePage() {
           <TabPanel value={value} index={1} dir={theme.direction} >
               <CourseSelector />
           </TabPanel>
-          {/* <TabPanel value={value} index={2} dir={theme.direction}>
+          <TabPanel value={value} index={2} dir={theme.direction}>
             <Schedule schedule={schedule} timeRange={[8*60, 18*60]}/>
-          </TabPanel> */}
+          </TabPanel>
         </SwipeableViews>
         </Box>
     );
