@@ -63,6 +63,12 @@ export default function SchedulePage() {
         console.log(sched);
         setSchedule(sched);
     }, []);
+
+    const dummySchedule = [
+        { start: 60*9, end: 60*10 + 30, name: 'CS 224', days: [0,2] },
+        { start: 60*10, end: 60*11, name: 'CS 253', days: [1,3] },
+        { start: 60*14, end: 60*15, name: 'CS 255', days: [1,3] },
+    ];
     
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
@@ -104,7 +110,7 @@ export default function SchedulePage() {
           onChangeIndex={handleChangeIndex}
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
-            <Schedule schedule={schedule} timeRange={[8*60, 18*60]}/>
+            <Schedule schedule={dummySchedule} timeRange={[8*60, 18*60]}/>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction} >
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
