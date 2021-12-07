@@ -7,8 +7,19 @@ import axios from 'axios';
 
 import { post } from 'utils'
 
+function containsObject(string, list) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+      const listCopy = list[i].toLowerCase();
+      const stringCopy = string.toLowerCase();
+      if (listCopy == stringCopy) {
+        return true;
+      }
+    }
+    return false;
+}
+
 function CourseSelector({ setSchedule }) {
-    const [APIData, setAPIData] = useState([]);
     const [filteredResults, setFilteredResults] = useState([]);
     const [courses, setCourses] = useState([])
     const [courseInput, setCourseInput] = useState("")
@@ -17,23 +28,27 @@ function CourseSelector({ setSchedule }) {
 
     useEffect(() => coursesRef.current = courses, [courses]) // write ref
     useEffect(() => getSchedule, [coursesRef]) // getSchedule on unmount
+
+    const handleChange = event => {
+      setCourseInput(event.target.value);
+    };
+
     useEffect(() => {
-      axios.get(`https://nopus-backend.herokuapp.com/home/`)
-        .then((response) => {
-          setAPIData(response.data);
-        })
-    }, [])
+      searchItems(courseInput);
+    }, [courseInput]);
 
-    const searchItems = (searchValue) => {
-      setCourseInput(searchValue)
+    const searchItems = async (searchValue) => {
       if (courseInput != '') {
-
-        const filteredData = APIData.filter((item) => {
-          return Object.values(item).join('').toLowerCase().includes(courseInput.toLowerCase())
-        })
-        setFilteredResults(filteredData)
+        try {
+          const response = await axios.get(`https://nopus-backend.herokuapp.com/home/${courseInput}`)
+          setFilteredResults(response.data);
+          console.log(setFilteredResults[0])
+        } catch (error) {
+          console.error(error);
+          setFilteredResults([]);
+        }
       } else {
-        setFilteredResults(APIData)
+        setFilteredResults([])
       }
     }
 
@@ -55,11 +70,14 @@ function CourseSelector({ setSchedule }) {
                         <Typography>Choose any classes that you want to include in your schedule</Typography>
                     </div>
                     <InputForm onSubmit={(e) => e.preventDefault()}>
-                        <TextField variant='filled' value={courseInput} onChange={(v) => searchItems(v.target.value)}/>
-                        <Button onClick={e => {
-                          if (filteredResults.length != 0) {
+                        <TextField variant='filled' value={courseInput} onChange={handleChange}/>
+                        <Button onClick={(e) => {
+                          if (filteredResults.length != 0 && !containsObject(courseInput, courses)) {
                             setCourses([...courses, courseInput]);
                             setCourseInput('');
+                            setFilteredResults([]);
+                          } else if (containsObject(courseInput, courses)) {
+                            alert("This course has already been added.")
                           } else {
                             alert("Course not found. Make sure you format your search with a space (e.g. 'CS 370').");
                           }
