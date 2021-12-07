@@ -44,8 +44,8 @@ function Preferences() {
         // FIXME: maxCredits and minCredits are not being read rn
         await post(`https://nopus-backend.herokuapp.com/profile/preferences/${user.sub.split('|')[1]}`, {
             availabilities: rangeObj,
-            minCredit: minCreditRef.target?.value || 0,
-            maxCredit: maxCreditRef.target?.value || 23,
+            minCredit: minCreditRef.current?.target.value || 0,
+            maxCredit: maxCreditRef.current?.target.value || 23,
         }).catch(console.error)
     }
 
