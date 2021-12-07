@@ -10,11 +10,10 @@ describe('Landing Page', () => {
   })
 })
 
-describe('Scheduler', () => {
+describe('Pre-Registration', () => {
     it('Class Selection', () => {
       cy.visit('/register')
-      cy.get('body').click();
-      cy.get(':nth-child(3) > .MuiInputBase-root > .MuiSelect-root').should('be.visible');
-      cy.get(':nth-child(4) > .MuiInputBase-root > .MuiSelect-root').should('be.visible');
     })
 })
+
+
