@@ -94,7 +94,7 @@ function CourseSelector({ setSchedule }) {
                             <CourseItem key={i}>
                                 {c}
                                 <DeleteCourse onClick={() => setCourses(
-                                    courses.splice(i, 1) && courses
+                                    [...courses.splice(i, 1) && courses]
                                 )}>X</DeleteCourse>
                             </CourseItem>
                         )}
